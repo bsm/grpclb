@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package grpclb.balancer.v1;
+
+message Server {
+  string address = 1;
+  int64 score = 2;
+}
+
+message ServersRequest {
+  string target = 1;
+}
+
+message ServersResponse {
+  repeated Server servers = 1;
+}
+
+service LoadBalancer {
+  rpc Servers(ServersRequest) returns (ServersResponse);
+}

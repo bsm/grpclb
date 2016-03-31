@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package grpclb.backend.v1;
+
+message LoadRequest {
+}
+
+message LoadResponse {
+  int64 score = 1;
+}
+
+service LoadReport {
+  rpc Load(LoadRequest) returns (LoadResponse);
+}
