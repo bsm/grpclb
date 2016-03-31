@@ -43,6 +43,7 @@ func main() {
 
 	_ = srv.Serve(lis)
 }
+```
 
 Full [Documentation](https://godoc.org/github.com/bsm/grpclb/grpclb_backend_v1#LoadReportServer)
 
