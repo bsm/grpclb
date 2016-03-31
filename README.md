@@ -44,13 +44,13 @@ func main() {
 	_ = srv.Serve(lis)
 }
 
-Full [Documentation](godoc.org/github.com/bsm/grpclb/grpclb_backend_v1#LoadReportServer)
+Full [Documentation](https://godoc.org/github.com/bsm/grpclb/grpclb_backend_v1#LoadReportServer)
 
 ### Client
 
 Coming soon...
 
-Full [Documentation](godoc.org/github.com/bsm/grpclb/grpclb_balancer_v1#LoadBalancerClient)
+Full [Documentation](https://godoc.org/github.com/bsm/grpclb/grpclb_balancer_v1#LoadBalancerClient)
 
 ## TODO
 
