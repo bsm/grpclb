@@ -51,17 +51,15 @@ func (r *LoadReporter) Load(_ context.Context, _ *pb.LoadRequest) (*pb.LoadRespo
 	return &pb.LoadResponse{Score: r.Score()}, nil
 }
 
-const minute = int64(time.Minute)
-
 // RateReporter maintains score as an exponentially weighted rate
 type RateReporter struct {
-	time  int64
-	count int64
+	time, unit, count int64
 }
 
-// NewRateReporter builds a rate reporter
-func NewRateReporter() *RateReporter {
+// NewRateReporter builds a rate reporter over a period of time.
+func NewRateReporter(d time.Duration) *RateReporter {
 	return &RateReporter{
+		unit: int64(d),
 		time: time.Now().UnixNano(),
 	}
 }
@@ -70,11 +68,11 @@ func NewRateReporter() *RateReporter {
 func (r *RateReporter) Score() int64 {
 	now := time.Now().UnixNano()
 	passed := now - atomic.SwapInt64(&r.time, now)
-	if passed < minute {
+	if passed < r.unit {
 		atomic.AddInt64(&r.time, -passed)
-		return atomic.LoadInt64(&r.count) * minute / passed
+		return atomic.LoadInt64(&r.count) * r.unit / passed
 	}
-	return atomic.SwapInt64(&r.count, 0) * minute / passed
+	return atomic.SwapInt64(&r.count, 0) * r.unit / passed
 }
 
 // Increment increases the rate by n.

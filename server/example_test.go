@@ -3,6 +3,7 @@ package server_test
 import (
 	"log"
 	"net"
+	"time"
 
 	lbpb "github.com/bsm/grpclb/grpclb_backend_v1"
 	lb "github.com/bsm/grpclb/server"
@@ -29,7 +30,7 @@ func Example() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	r := lb.NewRateReporter()
+	r := lb.NewRateReporter(time.Minute)
 	pb.RegisterGreeterServer(s, &GreeterServer{reporter: r})
 	lbpb.RegisterLoadReportServer(s, r)
 	s.Serve(lis)

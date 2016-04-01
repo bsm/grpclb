@@ -23,18 +23,18 @@ var _ = Describe("LoadReporter", func() {
 var _ = Describe("RateReporter", func() {
 
 	It("should increment", func() {
-		subject := NewRateReporter()
+		subject := NewRateReporter(time.Second)
 		Expect(subject.Score()).To(Equal(int64(0)))
 		subject.Increment(10)
 		time.Sleep(10 * time.Millisecond)
-		Expect(subject.Score()).To(BeNumerically("~", 60000, 5000))
+		Expect(subject.Score()).To(BeNumerically("~", 1000, 50))
 
 		subject.Increment(200)
 		time.Sleep(10 * time.Millisecond)
-		Expect(subject.Score()).To(BeNumerically("~", 620000, 50000))
+		Expect(subject.Score()).To(BeNumerically("~", 10500, 1000))
 
 		time.Sleep(10 * time.Millisecond)
-		Expect(subject.Score()).To(BeNumerically("~", 420000, 50000))
+		Expect(subject.Score()).To(BeNumerically("~", 6950, 1000))
 	})
 
 })
