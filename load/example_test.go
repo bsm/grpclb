@@ -1,4 +1,4 @@
-package server_test
+package load_test
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 	"time"
 
 	lbpb "github.com/bsm/grpclb/grpclb_backend_v1"
-	lb "github.com/bsm/grpclb/server"
+	"github.com/bsm/grpclb/load"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
@@ -14,7 +14,7 @@ import (
 
 // GreeterServer is used to implement helloworld.GreeterServer.
 type GreeterServer struct {
-	reporter *lb.RateReporter
+	reporter *load.RateReporter
 }
 
 // SayHello implements helloworld.GreeterServer
@@ -30,7 +30,7 @@ func Example() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	r := lb.NewRateReporter(time.Minute)
+	r := load.NewRateReporter(time.Minute)
 	pb.RegisterGreeterServer(s, &GreeterServer{reporter: r})
 	lbpb.RegisterLoadReportServer(s, r)
 	s.Serve(lis)

@@ -1,5 +1,5 @@
-// Package server include helpers for building grpblb compatible servers.
-package server
+// Package load include helpers for building grpblb compatible servers.
+package load
 
 import (
 	"sync/atomic"
@@ -9,45 +9,45 @@ import (
 	"golang.org/x/net/context"
 )
 
-var _ pb.LoadReportServer = (*LoadReporter)(nil)
+var _ pb.LoadReportServer = (*Reporter)(nil)
 var _ pb.LoadReportServer = (*RateReporter)(nil)
 
-// LoadReporter is a simple and proportional
+// Reporter is a simple and proportional
 // github.com/bsm/grpclb/grpclb_backend_v1.LoadReportServer
-type LoadReporter struct {
+type Reporter struct {
 	score int64
 }
 
-// NewLoadReporter creates a new LoadReporter
-func NewLoadReporter() *LoadReporter {
-	return &LoadReporter{}
+// NewReporter creates a new Reporter
+func NewReporter() *Reporter {
+	return &Reporter{}
 }
 
 // Increment allows to adjust load by a certain increment.
 // Typical use case is e.g. the number of server connections, where
 // Increment(1) is called on evert new connect and Increment(-1) on
 // every disconnect.
-func (r *LoadReporter) Increment(n int64) {
+func (r *Reporter) Increment(n int64) {
 	atomic.AddInt64(&r.score, n)
 }
 
 // Set sets the load to a particular value
-func (r *LoadReporter) Set(n int64) {
+func (r *Reporter) Set(n int64) {
 	atomic.StoreInt64(&r.score, n)
 }
 
 // Reset resets the load to 0
-func (r *LoadReporter) Reset() {
+func (r *Reporter) Reset() {
 	atomic.StoreInt64(&r.score, 0)
 }
 
 // Score returns the current load score
-func (r *LoadReporter) Score() int64 {
+func (r *Reporter) Score() int64 {
 	return atomic.LoadInt64(&r.score)
 }
 
 // Load implements github.com/bsm/grpclb/grpclb_backend_v1.LoadReportServer
-func (r *LoadReporter) Load(_ context.Context, _ *pb.LoadRequest) (*pb.LoadResponse, error) {
+func (r *Reporter) Load(_ context.Context, _ *pb.LoadRequest) (*pb.LoadResponse, error) {
 	return &pb.LoadResponse{Score: r.Score()}, nil
 }
 

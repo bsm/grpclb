@@ -1,17 +1,17 @@
-package server
+package load
 
 import (
 	"testing"
 	"time"
 
-	. "github.com/onsi/ginkgo"
+	"github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("LoadReporter", func() {
+var _ = ginkgo.Describe("Reporter", func() {
 
-	It("should get/set/increment", func() {
-		subject := NewLoadReporter()
+	ginkgo.It("should get/set/increment", func() {
+		subject := NewReporter()
 		subject.Set(10)
 		subject.Increment(20)
 		subject.Increment(-5)
@@ -20,9 +20,9 @@ var _ = Describe("LoadReporter", func() {
 
 })
 
-var _ = Describe("RateReporter", func() {
+var _ = ginkgo.Describe("RateReporter", func() {
 
-	It("should increment", func() {
+	ginkgo.It("should increment", func() {
 		subject := NewRateReporter(time.Second)
 		Expect(subject.Score()).To(Equal(int64(0)))
 		subject.Increment(10)
@@ -40,6 +40,6 @@ var _ = Describe("RateReporter", func() {
 })
 
 func TestSuite(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "grpclb/server")
+	RegisterFailHandler(ginkgo.Fail)
+	ginkgo.RunSpecs(t, "grpclb/load")
 }
