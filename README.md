@@ -45,7 +45,7 @@ func main() {
 }
 ```
 
-Full [Documentation](https://godoc.org/github.com/bsm/grpclb/grpclb_backend_v1#LoadReportServer)
+Full [Documentation](https://godoc.org/github.com/bsm/grpclb/server)
 
 ### Client
 
