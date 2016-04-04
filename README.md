@@ -18,40 +18,11 @@ as a reference for building load balancers. Either use the command directly or b
 
 Servers can optionally report load to the Load Balancer. An example:
 
-```go
-import (
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	pb "github.com/bsm/grpclb/grpclb_backend_v1"
-)
-
-type MyRPCServer struct {}
-
-// Load implements github.com/bsm/grpclb/grpclb_backend_v1.LoadReportServer
-// Returns a numeric proportional indicator - the higher the busier.
-func (s *MyRPCServer) Load(_ context.Context, _ *pb.LoadRequest) (*pb.LoadResponse, error) {
-	return &pb.LoadResponse{Score: 1234}
-}
-
-func main() {
-	srv := grpc.NewServer()
-	rpc := &MyRPCServer{}
-	pb.RegisterLoadReportServer(srv, rpc)
-
-	lis, _ := net.Listen("tcp", ":8080")
-	defer lis.Close()
-
-	_ = srv.Serve(lis)
-}
-```
-
-Full [Documentation](https://godoc.org/github.com/bsm/grpclb/server)
+See [Documentation](https://godoc.org/github.com/bsm/grpclb/load)
 
 ### Client
 
-Coming soon...
-
-Full [Documentation](https://godoc.org/github.com/bsm/grpclb/grpclb_balancer_v1#LoadBalancerClient)
+See [Documentation](https://godoc.org/github.com/bsm#NewPicker)
 
 ## TODO
 

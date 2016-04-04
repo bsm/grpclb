@@ -15,7 +15,7 @@ import (
 // picker is a load-balanced unicast picker
 type picker struct {
 	target string
-	config *Config
+	config *PickerConfig
 
 	conn  *grpc.Conn
 	addrs []string
@@ -27,8 +27,8 @@ type picker struct {
 	closing, closed chan struct{}
 }
 
-// Config is the picker configuration
-type Config struct {
+// PickerConfig is the picker configuration
+type PickerConfig struct {
 	// Address is the address of the load balancer.
 	// Default: 127.0.0.1:8383
 	Address string
@@ -41,7 +41,7 @@ type Config struct {
 	UpdateInterval time.Duration
 }
 
-func (c *Config) norm() *Config {
+func (c *PickerConfig) norm() *PickerConfig {
 	if c.Address == "" {
 		c.Address = "127.0.0.1:8383"
 	}
@@ -56,15 +56,15 @@ func (c *Config) norm() *Config {
 
 // NewPicker creates a Picker to pick addresses from a load-balancer
 // to connect.
-func NewPicker(target string, config *Config) (grpc.Picker, error) {
+func NewPicker(target string, config *PickerConfig) grpc.Picker {
 	if config == nil {
-		config = new(Config)
+		config = new(PickerConfig)
 	}
 
 	return &picker{
 		target: target,
 		config: config.norm(),
-	}, nil
+	}
 }
 
 func (p *picker) Init(cc *grpc.ClientConn) error {
