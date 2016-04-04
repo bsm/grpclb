@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/bsm/grpclb"
+	"github.com/bsm/grpclb/balancer"
 	"github.com/bsm/grpclb/discovery/consul"
 	balancerpb "github.com/bsm/grpclb/grpclb_balancer_v1"
 	"github.com/hashicorp/consul/api"
@@ -38,7 +38,7 @@ func listenAndServe() error {
 		return err
 	}
 
-	lb := grpclb.New(discovery, nil)
+	lb := balancer.New(discovery, nil)
 	defer lb.Reset()
 
 	srv := grpc.NewServer()

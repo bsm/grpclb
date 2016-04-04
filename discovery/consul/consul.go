@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/bsm/grpclb"
+	"github.com/bsm/grpclb/balancer"
 	"github.com/hashicorp/consul/api"
 )
 
@@ -15,8 +15,8 @@ type discovery struct {
 	waitIndex uint64
 }
 
-// New returns an implementation of grpclb.Discovery interface.
-func New(config *api.Config) (grpclb.Discovery, error) {
+// New returns an implementation of balancer.Discovery interface.
+func New(config *api.Config) (balancer.Discovery, error) {
 	if config == nil {
 		config = api.DefaultConfig()
 	}
@@ -28,7 +28,7 @@ func New(config *api.Config) (grpclb.Discovery, error) {
 	return &discovery{Client: c}, nil
 }
 
-// Resolve implements grpclb.Discovery
+// Resolve implements balancer.Discovery
 func (d *discovery) Resolve(target string) ([]string, error) {
 	service, tags := splitTarget(target)
 	return d.query(service, tags)

@@ -55,7 +55,6 @@ Full [Documentation](https://godoc.org/github.com/bsm/grpclb/grpclb_balancer_v1#
 
 ## TODO
 
-* Implement server helpers for collecting and exposing load information
 * Implement client helpers for connecting with load balancers
 
 ## Licence

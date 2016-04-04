@@ -1,4 +1,4 @@
-package grpclb
+package balancer
 
 import "time"
 
