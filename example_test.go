@@ -10,13 +10,15 @@ import (
 )
 
 func ExampleNewPicker() {
+	const target = "helloworld"
+
 	// Create a load-balanced address picker
-	picker := grpclb.NewPicker("helloworld", &grpclb.PickerConfig{
+	picker := grpclb.NewPicker(target, &grpclb.PickerConfig{
 		Address: "127.0.0.1:8383",
 	})
 
 	// Set up a load-balanced connection to the server.
-	conn, err := grpc.Dial("", grpc.WithInsecure(), grpc.WithPicker(picker))
+	conn, err := grpc.Dial(target, grpc.WithInsecure(), grpc.WithPicker(picker))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
