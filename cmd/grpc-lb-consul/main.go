@@ -18,8 +18,8 @@ var flags struct {
 }
 
 func init() {
-	flag.StringVar(&flags.addr, "-addr", ":8383", "Bind address. Default: :8383")
-	flag.StringVar(&flags.consul, "-consul", "127.0.0.1:8500", "Consul API address. Default: 127.0.0.1:8500")
+	flag.StringVar(&flags.addr, "addr", ":8383", "Bind address. Default: :8383")
+	flag.StringVar(&flags.consul, "consul", "127.0.0.1:8500", "Consul API address. Default: 127.0.0.1:8500")
 }
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 
 func listenAndServe() error {
 	config := api.DefaultConfig()
-	config.Address = flags.addr
+	config.Address = flags.consul
 
 	discovery, err := consul.New(config)
 	if err != nil {
