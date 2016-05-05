@@ -1,9 +1,8 @@
-package grpclb_test
+package grpclb
 
 import (
 	"log"
 
-	"github.com/bsm/grpclb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
@@ -13,7 +12,7 @@ func ExampleNewPicker() {
 	const target = "helloworld"
 
 	// Create a load-balanced address picker
-	picker := grpclb.NewPicker(target, &grpclb.PickerConfig{
+	picker := NewPicker(target, &PickerConfig{
 		Address: "127.0.0.1:8383",
 	})
 

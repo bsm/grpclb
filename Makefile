@@ -14,4 +14,4 @@ proto: $(patsubst %.proto,%.pb.go,$(wildcard */*.proto))
 .PHONY: default test vet errcheck all proto
 
 %.pb.go: %.proto
-	protoc --gogo_out=plugins=grpc:. $<
+	protoc --go_out=plugins=grpc:. $<
