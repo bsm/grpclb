@@ -27,7 +27,7 @@ var _ = ginkgo.Describe("RateReporter", func() {
 		Expect(subject.Score()).To(Equal(int64(0)))
 		subject.Increment(10)
 		time.Sleep(10 * time.Millisecond)
-		Expect(subject.Score()).To(BeNumerically("~", 1000, 200))
+		Expect(subject.Score()).To(BeNumerically("~", 1000, 400))
 
 		subject.Increment(200)
 		time.Sleep(10 * time.Millisecond)
