@@ -1,4 +1,4 @@
-# grpclb
+# grpclb [![Build Status](https://travis-ci.org/bsm/grpclb.png)](https://travis-ci.org/bsm/grpclb)
 
 External Load Balancing Service solution for gRPC written in Go. The approach follows the
 [proposal](https://github.com/grpc/grpc/blob/master/doc/load-balancing.md) outlined by the
