@@ -1,6 +1,6 @@
-SRC:=$(shell find . -name '*.go' -not -path '*vendor*')
-PKG:=$(shell glide nv)
-PROTO:=$(patsubst %.proto,%.pb.go,$(wildcard */*.proto))
+SRC=$(shell find . -name '*.go' -not -path '*vendor*')
+PKG=$(shell glide nv)
+PROTO=$(patsubst %.proto,%.pb.go,$(wildcard */*.proto))
 
 default: vet test
 
@@ -8,7 +8,7 @@ test:
 	go test $(PKG)
 
 vet:
-	go tool vet -printf=false -composites=false $(SRC)
+	go vet $(PKG)
 
 proto: $(PROTO)
 
