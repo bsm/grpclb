@@ -1,0 +1,13 @@
+sudo: false
+language: go
+go:
+  - 1.7
+  - 1.6.3
+  - 1.5.4
+install:
+  - go get -u github.com/Masterminds/glide
+  - glide install
+env:
+  - GO15VENDOREXPERIMENT=1
+script:
+  - make default

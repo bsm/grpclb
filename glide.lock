@@ -1,12 +1,12 @@
 hash: a2c1974ec167ab2bb1f7a73a8fe14b465e164e4a35618afdb0ff25a40d08828b
-updated: 2016-06-28T12:38:08.094835327+01:00
+updated: 2016-08-17T16:33:11.464412291+01:00
 imports:
 - name: github.com/golang/protobuf
-  version: 0c1f6d65b5a189c2250d10e71a5506f06f9fa0a0
+  version: 7390af9dcd3c33042ebaf2474a1724a83cf1a7e6
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: 09cfda47ed103910a8e1af76fa378a7e6acd5310
+  version: 8dfdef642490362c595dad5e90af52e7caee4bad
   subpackages:
   - api
 - name: github.com/hashicorp/go-cleanhttp
@@ -15,60 +15,63 @@ imports:
   version: 6c4672d66fc6312ddde18399262943e21175d831
   subpackages:
   - coordinate
-  - serf
 - name: golang.org/x/net
-  version: 04557861f124410b768b1ba5bb3a91b705afbfc6
+  version: 07b51741c1d6423d4a6abab1c49940ec09cb1aaf
   subpackages:
   - context
   - http2
-  - trace
   - http2/hpack
-  - lex/httplex
   - internal/timeseries
+  - lex/httplex
+  - trace
 - name: google.golang.org/grpc
-  version: 0eb7c5dcd059d77bde1eb5bc7d953940170d0d18
+  version: c2781963b3af261a37e0f14fdcb7c1fa13259e1f
   subpackages:
   - codes
-  - grpclog
-  - transport
-  - examples/helloworld/helloworld
   - credentials
+  - examples/helloworld/helloworld
+  - grpclog
   - internal
   - metadata
   - naming
   - peer
+  - transport
 testImports:
 - name: github.com/onsi/ginkgo
-  version: 059cec02d342bab423425a99b191186a03255e9e
+  version: 120efcfd33906beedc53369a8659c41cc9190e81
   subpackages:
-  - extensions/table
   - config
+  - extensions/table
   - internal/codelocation
+  - internal/containernode
   - internal/failer
+  - internal/leafnodes
   - internal/remote
+  - internal/spec
+  - internal/specrunner
   - internal/suite
   - internal/testingtproxy
   - internal/writer
   - reporters
   - reporters/stenographer
   - types
-  - internal/containernode
-  - internal/leafnodes
-  - internal/spec
-  - internal/specrunner
 - name: github.com/onsi/gomega
-  version: 0df7b7fdb38123c12a1f569f0affb2c2a7bd72cf
+  version: 9ed8da19f2156b87a803a8fdf6d126f627a12db1
   subpackages:
+  - format
   - internal/assertion
   - internal/asyncassertion
+  - internal/oraclematcher
   - internal/testingtsupport
   - matchers
-  - types
-  - internal/oraclematcher
-  - format
   - matchers/support/goraph/bipartitegraph
   - matchers/support/goraph/edge
   - matchers/support/goraph/node
   - matchers/support/goraph/util
+  - types
+- name: golang.org/x/sys
+  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
+  subpackages:
+  - unix
 - name: gopkg.in/yaml.v2
-  version: a83829b6f1293c91addabc89d0571c246397bbf4
+  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e
