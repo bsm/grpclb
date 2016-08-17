@@ -31,10 +31,10 @@ var _ = ginkgo.Describe("RateReporter", func() {
 
 		subject.Increment(200)
 		time.Sleep(10 * time.Millisecond)
-		Expect(subject.Score()).To(BeNumerically("~", 10500, 2000))
+		Expect(subject.Score()).To(BeNumerically("~", 10500, 4000))
 
 		time.Sleep(10 * time.Millisecond)
-		Expect(subject.Score()).To(BeNumerically("~", 6950, 1500))
+		Expect(subject.Score()).To(BeNumerically("~", 6950, 3000))
 	})
 
 })
