@@ -27,12 +27,18 @@ force-proto: touch-proto proto
 %.pb.go: %.proto
 	protoc --go_out=plugins=grpc:. $<
 
-build-all:
-	mkdir -p bin
-	for pkg in $(TARGET_PKG); do \
-		for os in $(TARGET_OS); do \
-			for arch in $(TARGET_ARCH); do \
-				env GOOS=$$os GOARCH=$$arch go build -o bin/$$(basename $$pkg)-$(VERSION)-$$os-$$arch ./$$pkg; \
-			done; \
-		done; \
-	done
+build-all: \
+	bin/grpc-lb-consul-$(VERSION)-linux-amd64 \
+	bin/grpc-lb-consul-$(VERSION)-darwin-amd64 \
+	bin/grpc-lb-client-$(VERSION)-linux-amd64 \
+	bin/grpc-lb-client-$(VERSION)-darwin-amd64
+
+bin/grpc-lb-client-$(VERSION)-linux-amd64: $(SRC)
+	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $@ ./cmd/grpc-lb-client
+bin/grpc-lb-client-$(VERSION)-darwin-amd64: $(SRC)
+	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o $@ ./cmd/grpc-lb-client
+
+bin/grpc-lb-consul-$(VERSION)-linux-amd64: $(SRC)
+	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $@ ./cmd/grpc-lb-consul
+bin/grpc-lb-consul-$(VERSION)-darwin-amd64: $(SRC)
+	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o $@ ./cmd/grpc-lb-consul
