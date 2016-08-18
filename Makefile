@@ -27,6 +27,15 @@ force-proto: touch-proto proto
 %.pb.go: %.proto
 	protoc --go_out=plugins=grpc:. $<
 
+bin/%.gz: bin/%
+	gzip -q -c $< > $@
+
+package-all: \
+	bin/grpc-lb-consul-$(VERSION)-linux-amd64.gz \
+	bin/grpc-lb-consul-$(VERSION)-darwin-amd64.gz \
+	bin/grpc-lb-client-$(VERSION)-linux-amd64.gz \
+	bin/grpc-lb-client-$(VERSION)-darwin-amd64.gz
+
 build-all: \
 	bin/grpc-lb-consul-$(VERSION)-linux-amd64 \
 	bin/grpc-lb-consul-$(VERSION)-darwin-amd64 \
