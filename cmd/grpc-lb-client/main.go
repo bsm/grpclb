@@ -1,12 +1,12 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log"
 
 	balancerpb "github.com/bsm/grpclb/grpclb_balancer_v1"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
