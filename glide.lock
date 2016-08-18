@@ -1,12 +1,12 @@
 hash: a2c1974ec167ab2bb1f7a73a8fe14b465e164e4a35618afdb0ff25a40d08828b
-updated: 2016-08-17T16:33:11.464412291+01:00
+updated: 2016-08-18T11:50:45.985157314+01:00
 imports:
 - name: github.com/golang/protobuf
-  version: 7390af9dcd3c33042ebaf2474a1724a83cf1a7e6
+  version: f592bd283e9ef86337a432eb50e592278c3d534d
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: 8dfdef642490362c595dad5e90af52e7caee4bad
+  version: 3c2a73e670fde499203e31d1a47c96dc1115a40b
   subpackages:
   - api
 - name: github.com/hashicorp/go-cleanhttp
@@ -25,7 +25,7 @@ imports:
   - lex/httplex
   - trace
 - name: google.golang.org/grpc
-  version: c2781963b3af261a37e0f14fdcb7c1fa13259e1f
+  version: 8a81ddda27e5fdd3b56f3ce841b37dbf7387dd26
   subpackages:
   - codes
   - credentials
@@ -38,7 +38,7 @@ imports:
   - transport
 testImports:
 - name: github.com/onsi/ginkgo
-  version: 120efcfd33906beedc53369a8659c41cc9190e81
+  version: 43e2af1f01ace55adbb6d7d0f30416476db1baae
   subpackages:
   - config
   - extensions/table
