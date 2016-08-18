@@ -3,9 +3,11 @@ PKG=$(shell glide nv)
 PROTO=$(patsubst %.proto,%.pb.go,$(wildcard */*.proto))
 VERSION=v0.3.1
 
-TARGET_PKG=$(patsubst cmd/%/main.go,cmd/%,$(wildcard cmd/*/main.go))
+TARGET_PKG=$(patsubst cmd/%/main.go,bin/%,$(wildcard cmd/grpc-lb-*/main.go))
 TARGET_OS=linux darwin
 TARGET_ARCH=amd64 386
+TARGETS=$(foreach pkg,$(TARGET_PKG),$(foreach os,$(TARGET_OS),$(foreach arch,$(TARGET_ARCH),$(pkg)-$(os)-$(arch))))
+TARGETS_GZ=$(foreach t,$(TARGETS),$(t).gz)
 
 default: vet test
 
@@ -22,32 +24,17 @@ touch-proto:
 
 force-proto: touch-proto proto
 
-.PHONY: default test vet all proto
+build: $(TARGETS)
+build-gz: $(TARGETS_GZ)
+
+.PHONY: default test vet all proto force-proto build build-gz
 
 %.pb.go: %.proto
 	protoc --go_out=plugins=grpc:. $<
-
-bin/%.gz: bin/%
+bin/grpc-lb-%.gz: bin/grpc-lb-%
 	gzip -q -c $< > $@
-
-package-all: \
-	bin/grpc-lb-consul-$(VERSION)-linux-amd64.gz \
-	bin/grpc-lb-consul-$(VERSION)-darwin-amd64.gz \
-	bin/grpc-lb-client-$(VERSION)-linux-amd64.gz \
-	bin/grpc-lb-client-$(VERSION)-darwin-amd64.gz
-
-build-all: \
-	bin/grpc-lb-consul-$(VERSION)-linux-amd64 \
-	bin/grpc-lb-consul-$(VERSION)-darwin-amd64 \
-	bin/grpc-lb-client-$(VERSION)-linux-amd64 \
-	bin/grpc-lb-client-$(VERSION)-darwin-amd64
-
-bin/grpc-lb-client-$(VERSION)-linux-amd64: $(SRC)
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $@ ./cmd/grpc-lb-client
-bin/grpc-lb-client-$(VERSION)-darwin-amd64: $(SRC)
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o $@ ./cmd/grpc-lb-client
-
-bin/grpc-lb-consul-$(VERSION)-linux-amd64: $(SRC)
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $@ ./cmd/grpc-lb-consul
-bin/grpc-lb-consul-$(VERSION)-darwin-amd64: $(SRC)
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o $@ ./cmd/grpc-lb-consul
+bin/grpc-lb-%: $(SRC)
+	@mkdir -p $(dir $@)
+	$(eval os := $(word 4, $(subst -, ,$@)))
+	$(eval arch := $(word 5, $(subst -, ,$@)))
+	CGO_ENABLED=0 GOOS=$(os) GOARCH=$(arch) go build -o $@ $(patsubst bin/%-$(os)-$(arch),cmd/%/main.go,$@)
