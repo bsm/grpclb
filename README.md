@@ -22,7 +22,7 @@ See [Documentation](https://godoc.org/github.com/bsm/grpclb/load)
 
 ### Client
 
-See [Documentation](https://godoc.org/github.com/bsm#NewResolver)
+See [Documentation](https://godoc.org/github.com/bsm/grpclb#NewResolver)
 
 ## TODO
 
