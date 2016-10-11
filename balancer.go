@@ -40,7 +40,7 @@ type pickFirst struct {
 	closing, closed chan struct{}
 }
 
-func (p *pickFirst) Start(target string) error {
+func (p *pickFirst) Start(target string, _ grpc.BalancerConfig) error {
 	cc, err := grpc.Dial(p.opt.Address, p.opt.DialOptions...)
 	if err != nil {
 		return err
