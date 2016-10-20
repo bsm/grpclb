@@ -23,13 +23,6 @@ var _ = Describe("service", func() {
 
 	It("should report servers", func() {
 		Expect(subject.Servers()).To(ConsistOf([]*balancerpb.Server{
-			{Address: backendA.Address()},
-			{Address: backendB.Address()},
-		}))
-
-		Eventually(func() []*balancerpb.Server {
-			return subject.Servers()
-		}).Should(ConsistOf([]*balancerpb.Server{
 			{Address: backendA.Address(), Score: 10},
 			{Address: backendB.Address(), Score: 40},
 		}))
@@ -39,9 +32,7 @@ var _ = Describe("service", func() {
 		subject.discovery = mockDiscovery{backendA.Address()}
 		Expect(subject.updateBackends()).NotTo(HaveOccurred())
 
-		Eventually(func() []*balancerpb.Server {
-			return subject.Servers()
-		}).Should(ConsistOf([]*balancerpb.Server{
+		Expect(subject.Servers()).To(ConsistOf([]*balancerpb.Server{
 			{Address: backendA.Address(), Score: 10},
 		}))
 	})

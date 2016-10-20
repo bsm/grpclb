@@ -12,7 +12,6 @@ import (
 
 type discovery struct {
 	*api.Client
-	waitIndex uint64
 }
 
 // New returns an implementation of balancer.Discovery interface.
@@ -41,16 +40,10 @@ func (d *discovery) query(service string, tags []string) ([]string, error) {
 	}
 
 	// Query watcher
-	entries, meta, err := d.Health().Service(service, tag, true, &api.QueryOptions{
-		WaitIndex: d.waitIndex,
-	})
+	entries, _, err := d.Health().Service(service, tag, true, nil)
 	if err != nil {
-		d.waitIndex = 0
 		return nil, err
 	}
-
-	// Store waitIndex
-	d.waitIndex = meta.LastIndex
 
 	// If more than one tag is passed, we need to filter
 	if len(tags) > 1 {

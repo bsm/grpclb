@@ -41,6 +41,11 @@ func newBackend(target, address string, queryInterval time.Duration) (*backend, 
 		closed:  make(chan error),
 	}
 
+	if err := b.updateScore(); err != nil {
+		cc.Close()
+		return nil, err
+	}
+
 	go b.loop(queryInterval)
 	return b, nil
 }
@@ -66,16 +71,15 @@ func (b *backend) loop(queryInterval time.Duration) {
 	defer t.Stop()
 
 	for {
-		if err := b.updateScore(); err != nil {
-			grpclog.Printf("error retrieving load score for %s from %s: %s", b.target, b.address, err)
-		}
-
 		select {
 		case <-b.closing:
 			b.closed <- b.cc.Close()
 			close(b.closed)
 			return
 		case <-t.C:
+			if err := b.updateScore(); err != nil {
+				grpclog.Printf("error retrieving load score for %s from %s: %s", b.target, b.address, err)
+			}
 		}
 	}
 }
