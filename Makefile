@@ -7,7 +7,7 @@ TARGET_PKG=$(patsubst cmd/%/main.go,bin/%,$(wildcard cmd/grpc-lb-*/main.go))
 TARGET_OS=linux darwin
 TARGET_ARCH=amd64 386
 TARGETS=$(foreach pkg,$(TARGET_PKG),$(foreach os,$(TARGET_OS),$(foreach arch,$(TARGET_ARCH),$(pkg)-$(os)-$(arch))))
-TARGETS_GZ=$(foreach t,$(TARGETS),$(t).gz)
+ARCHIVES=$(foreach t,$(TARGETS),$(t).zip)
 
 default: vet test
 
@@ -25,14 +25,14 @@ touch-proto:
 force-proto: touch-proto proto
 
 build: $(TARGETS)
-build-gz: $(TARGETS_GZ)
+dist: $(ARCHIVES)
 
-.PHONY: default test vet all proto force-proto build build-gz
+.PHONY: default test vet all proto force-proto build dist
 
 %.pb.go: %.proto
 	protoc --go_out=plugins=grpc:. $<
-bin/grpc-lb-%.gz: bin/grpc-lb-%
-	gzip -q -c $< > $@
+bin/grpc-lb-%.zip: bin/grpc-lb-%
+	zip -j $@ $<
 bin/grpc-lb-%: $(SRC)
 	@mkdir -p $(dir $@)
 	$(eval os := $(word 4, $(subst -, ,$@)))
