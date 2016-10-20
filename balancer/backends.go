@@ -74,39 +74,14 @@ func (b *backends) Update(addrs strset) (err error) {
 	}
 
 	// Connect to added backends, in parallel
-	if len(added) != 0 {
-		err = b.connectAll(addrs)
+	for _, addr := range added {
+		if backend, e := newBackend(b.target, addr, b.queryInterval); e != nil {
+			err = e
+		} else {
+			b.mu.Lock()
+			b.set[addr] = backend
+			b.mu.Unlock()
+		}
 	}
 	return
-}
-
-func (b *backends) connectAll(addrs []string) (err error) {
-	var mu sync.Mutex
-	var wg sync.WaitGroup
-
-	for i := range addrs {
-		wg.Add(1)
-		go func(addr string) {
-			if e := b.connect(addr); e != nil {
-				mu.Lock()
-				err = e
-				mu.Unlock()
-			}
-			wg.Done()
-		}(addrs[i])
-	}
-	wg.Wait()
-	return
-}
-
-func (b *backends) connect(addr string) error {
-	backend, err := newBackend(b.target, addr, b.queryInterval)
-	if err != nil {
-		return err
-	}
-
-	b.mu.Lock()
-	b.set[addr] = backend
-	b.mu.Unlock()
-	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"net"
 	"testing"
+	"time"
 
 	backendpb "github.com/bsm/grpclb/grpclb_backend_v1"
 	balancerpb "github.com/bsm/grpclb/grpclb_balancer_v1"
@@ -101,5 +102,6 @@ func newMockServer(score int64) (*mockServer, error) {
 func (m *mockServer) Close()          { _ = m.lis.Close() }
 func (m *mockServer) Address() string { return m.lis.Addr().String() }
 func (m *mockServer) Load(_ context.Context, _ *backendpb.LoadRequest) (*backendpb.LoadResponse, error) {
+	time.Sleep(time.Millisecond) // artificial delay
 	return &backendpb.LoadResponse{Score: m.score}, nil
 }

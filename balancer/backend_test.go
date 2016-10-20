@@ -14,7 +14,8 @@ var _ = Describe("backend", func() {
 		Expect(err).NotTo(HaveOccurred())
 		defer be.Close()
 
-		Expect(be.Score()).To(Equal(int64(10)))
+		Expect(be.Score()).To(Equal(int64(0)))
+		Eventually(func() int64 { return be.Score() }).Should(Equal(int64(10)))
 	})
 
 	It("should ignore scores on services that don't implement score reporting", func() {
@@ -22,7 +23,9 @@ var _ = Describe("backend", func() {
 		Expect(err).NotTo(HaveOccurred())
 		defer be.Close()
 
-		Expect(be.Score()).To(Equal(int64(0)))
+		Eventually(func() int64 {
+			return be.Score()
+		}, "20ms").Should(Equal(int64(0)))
 	})
 
 })

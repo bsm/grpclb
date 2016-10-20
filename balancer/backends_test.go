@@ -27,6 +27,13 @@ var _ = Describe("backends", func() {
 
 	It("should report servers", func() {
 		Expect(subject.Servers()).To(ConsistOf([]*balancerpb.Server{
+			{Address: backendA.Address()},
+			{Address: backendB.Address()},
+		}))
+
+		Eventually(func() []*balancerpb.Server {
+			return subject.Servers()
+		}).Should(ConsistOf([]*balancerpb.Server{
 			{Address: backendA.Address(), Score: 10},
 			{Address: backendB.Address(), Score: 40},
 		}))

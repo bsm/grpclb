@@ -21,10 +21,20 @@ var _ = Describe("Server", func() {
 	It("should report servers", func() {
 		servers, err := subject.GetServers("svcname")
 		Expect(err).NotTo(HaveOccurred())
-		Expect(servers).To(Equal([]*balancerpb.Server{
+		Expect(servers).To(ConsistOf([]*balancerpb.Server{
+			{Address: backendA.Address()},
+			{Address: backendB.Address()},
+		}))
+
+		Eventually(func() []*balancerpb.Server {
+			servers, err := subject.GetServers("svcname")
+			Expect(err).NotTo(HaveOccurred())
+			return servers
+		}).Should(Equal([]*balancerpb.Server{
 			{Address: backendA.Address(), Score: 10},
 			{Address: backendB.Address(), Score: 40},
 		}))
+
 	})
 
 	It("should cache", func() {
