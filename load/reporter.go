@@ -68,6 +68,9 @@ func NewRateReporter(d time.Duration) *RateReporter {
 func (r *RateReporter) Score() int64 {
 	now := time.Now().UnixNano()
 	passed := now - atomic.SwapInt64(&r.time, now)
+	if passed == 0 {
+		passed = int64(time.Nanosecond)
+	}
 	if passed < r.unit {
 		atomic.AddInt64(&r.time, -passed)
 		return atomic.LoadInt64(&r.count) * r.unit / passed
