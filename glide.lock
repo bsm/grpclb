@@ -1,31 +1,32 @@
 hash: a2c1974ec167ab2bb1f7a73a8fe14b465e164e4a35618afdb0ff25a40d08828b
-updated: 2016-10-11T17:11:17.706974701+03:00
+updated: 2016-12-12T16:36:02.145623188Z
 imports:
 - name: github.com/golang/protobuf
-  version: f592bd283e9ef86337a432eb50e592278c3d534d
+  version: 8ee79997227bf9b34611aee7946ae64735e6fd93
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: 3c2a73e670fde499203e31d1a47c96dc1115a40b
+  version: 17db4a572287f2b0cf93e47339a17db522f12d45
   subpackages:
   - api
 - name: github.com/hashicorp/go-cleanhttp
-  version: 875fb671b3ddc66f8e2f0acc33829c8cb989a38d
+  version: ad28ea4487f05916463e2423a55166280e8254b5
 - name: github.com/hashicorp/serf
-  version: 6c4672d66fc6312ddde18399262943e21175d831
+  version: d3a67ab21bc8a4643fa53a3633f2d951dd50c6ca
   subpackages:
   - coordinate
 - name: golang.org/x/net
-  version: 07b51741c1d6423d4a6abab1c49940ec09cb1aaf
+  version: e31bd588d1077ee66a958c0ad3a235f2084b4195
   subpackages:
   - context
   - http2
   - http2/hpack
+  - idna
   - internal/timeseries
   - lex/httplex
   - trace
 - name: google.golang.org/grpc
-  version: 72d072e4c18c02bfe6c98fc661a4df74da546145
+  version: 708a7f9f3283aa2d4f6132d287d78683babe55c8
   subpackages:
   - codes
   - credentials
@@ -35,10 +36,12 @@ imports:
   - metadata
   - naming
   - peer
+  - stats
+  - tap
   - transport
 testImports:
 - name: github.com/onsi/ginkgo
-  version: 43e2af1f01ace55adbb6d7d0f30416476db1baae
+  version: 00054c0bb96fc880d4e0be1b90937fad438c5290
   subpackages:
   - config
   - extensions/table
@@ -54,9 +57,11 @@ testImports:
   - internal/writer
   - reporters
   - reporters/stenographer
+  - reporters/stenographer/support/go-colorable
+  - reporters/stenographer/support/go-isatty
   - types
 - name: github.com/onsi/gomega
-  version: 9ed8da19f2156b87a803a8fdf6d126f627a12db1
+  version: f1f0f388b31eca4e2cbe7a6dd8a3a1dfddda5b1c
   subpackages:
   - format
   - internal/assertion
@@ -70,8 +75,8 @@ testImports:
   - matchers/support/goraph/util
   - types
 - name: golang.org/x/sys
-  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
+  version: 478fcf54317e52ab69f40bb4c7a1520288d7f7ea
   subpackages:
   - unix
 - name: gopkg.in/yaml.v2
-  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e
+  version: a5b47d31c556af34a302ce5d659e6fea44d90de0

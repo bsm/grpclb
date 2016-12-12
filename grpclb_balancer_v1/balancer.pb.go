@@ -45,6 +45,20 @@ func (m *Server) String() string            { return proto.CompactTextString(m) 
 func (*Server) ProtoMessage()               {}
 func (*Server) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
+func (m *Server) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *Server) GetScore() int64 {
+	if m != nil {
+		return m.Score
+	}
+	return 0
+}
+
 type ServersRequest struct {
 	Target string `protobuf:"bytes,1,opt,name=target" json:"target,omitempty"`
 }
@@ -53,6 +67,13 @@ func (m *ServersRequest) Reset()                    { *m = ServersRequest{} }
 func (m *ServersRequest) String() string            { return proto.CompactTextString(m) }
 func (*ServersRequest) ProtoMessage()               {}
 func (*ServersRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+
+func (m *ServersRequest) GetTarget() string {
+	if m != nil {
+		return m.Target
+	}
+	return ""
+}
 
 type ServersResponse struct {
 	Servers []*Server `protobuf:"bytes,1,rep,name=servers" json:"servers,omitempty"`
@@ -82,7 +103,7 @@ var _ grpc.ClientConn
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion3
+const _ = grpc.SupportPackageIsVersion4
 
 // Client API for LoadBalancer service
 
@@ -145,7 +166,7 @@ var _LoadBalancer_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: fileDescriptor0,
+	Metadata: "grpclb_balancer_v1/balancer.proto",
 }
 
 func init() { proto.RegisterFile("grpclb_balancer_v1/balancer.proto", fileDescriptor0) }

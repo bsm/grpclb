@@ -51,6 +51,13 @@ func (m *LoadResponse) String() string            { return proto.CompactTextStri
 func (*LoadResponse) ProtoMessage()               {}
 func (*LoadResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
+func (m *LoadResponse) GetScore() int64 {
+	if m != nil {
+		return m.Score
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*LoadRequest)(nil), "grpclb.backend.v1.LoadRequest")
 	proto.RegisterType((*LoadResponse)(nil), "grpclb.backend.v1.LoadResponse")
@@ -62,7 +69,7 @@ var _ grpc.ClientConn
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion3
+const _ = grpc.SupportPackageIsVersion4
 
 // Client API for LoadReport service
 
@@ -125,7 +132,7 @@ var _LoadReport_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: fileDescriptor0,
+	Metadata: "grpclb_backend_v1/backend.proto",
 }
 
 func init() { proto.RegisterFile("grpclb_backend_v1/backend.proto", fileDescriptor0) }
