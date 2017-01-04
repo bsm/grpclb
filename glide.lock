@@ -1,18 +1,18 @@
-hash: a2c1974ec167ab2bb1f7a73a8fe14b465e164e4a35618afdb0ff25a40d08828b
-updated: 2016-12-12T16:36:02.145623188Z
+hash: c451046aecf093fd005f1f151c3f3d5619134b5d32f41b86109fde5dba22617e
+updated: 2017-01-04T16:50:11.708989363Z
 imports:
 - name: github.com/golang/protobuf
   version: 8ee79997227bf9b34611aee7946ae64735e6fd93
   subpackages:
   - proto
 - name: github.com/hashicorp/consul
-  version: 17db4a572287f2b0cf93e47339a17db522f12d45
+  version: a9afa0c27f484dd19fe59a80444e64e5352c4408
   subpackages:
   - api
 - name: github.com/hashicorp/go-cleanhttp
   version: ad28ea4487f05916463e2423a55166280e8254b5
 - name: github.com/hashicorp/serf
-  version: d3a67ab21bc8a4643fa53a3633f2d951dd50c6ca
+  version: 1d4fa605f6ff3ed628d7ae5eda7c0e56803e72a5
   subpackages:
   - coordinate
 - name: golang.org/x/net

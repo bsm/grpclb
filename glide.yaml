@@ -4,12 +4,14 @@ import:
   subpackages:
   - proto
 - package: github.com/hashicorp/consul
+  version: ^0.7.2
   subpackages:
   - api
 - package: golang.org/x/net
   subpackages:
   - context
 - package: google.golang.org/grpc
+  version: ^1.0.5
   subpackages:
   - codes
   - grpclog
