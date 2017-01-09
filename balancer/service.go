@@ -25,6 +25,8 @@ func newService(target string, discovery Discovery, discoveryInterval, loadRepor
 		closed:  make(chan struct{}),
 	}
 	if err := s.updateBackends(); err != nil {
+		// close ALL backend connections (some of them could succeed, don't leak these):
+		_ = s.backends.Update(nil)
 		return nil, err
 	}
 
