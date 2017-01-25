@@ -1,5 +1,5 @@
 hash: c451046aecf093fd005f1f151c3f3d5619134b5d32f41b86109fde5dba22617e
-updated: 2017-01-04T16:50:11.708989363Z
+updated: 2017-01-25T11:01:31.247663Z
 imports:
 - name: github.com/golang/protobuf
   version: 8ee79997227bf9b34611aee7946ae64735e6fd93
@@ -12,11 +12,11 @@ imports:
 - name: github.com/hashicorp/go-cleanhttp
   version: ad28ea4487f05916463e2423a55166280e8254b5
 - name: github.com/hashicorp/serf
-  version: 1d4fa605f6ff3ed628d7ae5eda7c0e56803e72a5
+  version: d3a67ab21bc8a4643fa53a3633f2d951dd50c6ca
   subpackages:
   - coordinate
 - name: golang.org/x/net
-  version: e31bd588d1077ee66a958c0ad3a235f2084b4195
+  version: f2499483f923065a842d38eb4c7f1927e6fc6e6d
   subpackages:
   - context
   - http2
@@ -41,7 +41,7 @@ imports:
   - transport
 testImports:
 - name: github.com/onsi/ginkgo
-  version: 00054c0bb96fc880d4e0be1b90937fad438c5290
+  version: a23f924ce96d61f963fb6219b8ff069d8d768cc2
   subpackages:
   - config
   - extensions/table
@@ -61,7 +61,7 @@ testImports:
   - reporters/stenographer/support/go-isatty
   - types
 - name: github.com/onsi/gomega
-  version: f1f0f388b31eca4e2cbe7a6dd8a3a1dfddda5b1c
+  version: e85f63af4302dc0e4277c6008ecf803f1d80e4f0
   subpackages:
   - format
   - internal/assertion
@@ -75,8 +75,8 @@ testImports:
   - matchers/support/goraph/util
   - types
 - name: golang.org/x/sys
-  version: 478fcf54317e52ab69f40bb4c7a1520288d7f7ea
+  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
   subpackages:
   - unix
 - name: gopkg.in/yaml.v2
-  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
+  version: 14227de293ca979cf205cd88769fe71ed96a97e2
