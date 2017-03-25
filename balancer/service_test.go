@@ -30,7 +30,7 @@ var _ = Describe("service", func() {
 
 	It("should update backends", func() {
 		subject.discovery = mockDiscovery{backendA.Address()}
-		Expect(subject.updateBackends()).NotTo(HaveOccurred())
+		Expect(subject.updateBackends()).To(Succeed())
 
 		Expect(subject.Servers()).To(ConsistOf([]*balancerpb.Server{
 			{Address: backendA.Address(), Score: 10},

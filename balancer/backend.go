@@ -2,10 +2,10 @@ package balancer
 
 import (
 	"sync/atomic"
-	"time"
 
 	backendpb "github.com/bsm/grpclb/grpclb_backend_v1"
 	balancerpb "github.com/bsm/grpclb/grpclb_balancer_v1"
+
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -19,12 +19,9 @@ type backend struct {
 	target  string
 	address string
 	score   int64
-
-	closing chan struct{}
-	closed  chan error
 }
 
-func newBackend(target, address string, queryInterval time.Duration) (*backend, error) {
+func newBackend(target, address string) (*backend, error) {
 	cc, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
@@ -36,17 +33,13 @@ func newBackend(target, address string, queryInterval time.Duration) (*backend, 
 
 		target:  target,
 		address: address,
-
-		closing: make(chan struct{}),
-		closed:  make(chan error),
 	}
 
-	if err := b.updateScore(); err != nil {
-		cc.Close()
+	if err := b.UpdateScore(); err != nil {
+		b.Close()
 		return nil, err
 	}
 
-	go b.loop(queryInterval)
 	return b, nil
 }
 
@@ -61,37 +54,19 @@ func (b *backend) Score() int64 {
 	return atomic.LoadInt64(&b.score)
 }
 
-func (b *backend) Close() error {
-	close(b.closing)
-	return <-b.closed
-}
-
-func (b *backend) loop(queryInterval time.Duration) {
-	t := time.NewTicker(queryInterval)
-	defer t.Stop()
-
-	for {
-		select {
-		case <-b.closing:
-			b.closed <- b.cc.Close()
-			close(b.closed)
-			return
-		case <-t.C:
-			if err := b.updateScore(); err != nil {
-				grpclog.Printf("error retrieving load score for %s from %s: %s", b.target, b.address, err)
-			}
-		}
-	}
-}
-
-func (b *backend) updateScore() error {
+func (b *backend) UpdateScore() error {
 	resp, err := b.cln.Load(context.Background(), &backendpb.LoadRequest{})
 	if err != nil {
 		if grpc.Code(err) == codes.Unimplemented {
 			return nil
 		}
+		grpclog.Printf("error retrieving load score for %s from %s: %s", b.target, b.address, err)
 		return err
 	}
 	atomic.StoreInt64(&b.score, resp.Score)
 	return nil
+}
+
+func (b *backend) Close() error {
+	return b.cc.Close()
 }

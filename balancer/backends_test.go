@@ -4,6 +4,8 @@ import (
 	"time"
 
 	balancerpb "github.com/bsm/grpclb/grpclb_balancer_v1"
+	"google.golang.org/grpc"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -21,7 +23,7 @@ var _ = Describe("backends", func() {
 	})
 
 	AfterEach(func() {
-		Expect(subject.Update(nil)).NotTo(HaveOccurred())
+		Expect(subject.Close()).To(Succeed())
 		Expect(subject.set).To(BeEmpty())
 	})
 
@@ -49,6 +51,26 @@ var _ = Describe("backends", func() {
 		Expect(err).NotTo(HaveOccurred())
 		Expect(subject.set).To(HaveLen(1))
 		Expect(subject.set).To(HaveKey(backendB.Address()))
+	})
+
+	Describe("private API", func() {
+		Describe("updateBackendScores", func() {
+			It("should forget backends, that fail to update load score", func() {
+				server := newMockServer(0)
+				defer server.Close()
+
+				err := subject.Update(toStrset([]string{server.Address()}))
+				Expect(err).NotTo(HaveOccurred())
+				Expect(subject.set).To(HaveKey(server.Address()))
+
+				server.loadErr = grpc.ErrClientConnClosing
+
+				err = subject.updateBackendScores()
+				Expect(err).NotTo(HaveOccurred())
+
+				Expect(subject.set).NotTo(HaveKey(server.Address()))
+			})
+		})
 	})
 
 })

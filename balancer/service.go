@@ -26,7 +26,7 @@ func newService(target string, discovery Discovery, discoveryInterval, loadRepor
 	}
 	if err := s.updateBackends(); err != nil {
 		// close ALL backend connections (some of them could succeed, don't leak these):
-		_ = s.backends.Update(nil)
+		_ = s.backends.Close()
 		return nil, err
 	}
 
@@ -48,7 +48,7 @@ func (s *service) loop(discoveryInterval time.Duration) {
 	for {
 		select {
 		case <-s.closing:
-			_ = s.backends.Update(nil)
+			_ = s.backends.Close()
 			close(s.closed)
 			return
 		case <-t.C:

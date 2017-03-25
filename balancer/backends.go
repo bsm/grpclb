@@ -5,6 +5,8 @@ import (
 	"sync"
 	"time"
 
+	"google.golang.org/grpc/grpclog"
+
 	balancerpb "github.com/bsm/grpclb/grpclb_balancer_v1"
 )
 
@@ -27,15 +29,20 @@ type backends struct {
 	set    map[string]*backend
 	mu     sync.RWMutex
 
-	queryInterval time.Duration
+	closing, closed chan struct{}
 }
 
 func newBackends(target string, queryInterval time.Duration) *backends {
-	return &backends{
-		target:        target,
-		set:           make(map[string]*backend),
-		queryInterval: queryInterval,
+	b := &backends{
+		target: target,
+		set:    make(map[string]*backend),
+
+		closing: make(chan struct{}),
+		closed:  make(chan struct{}),
 	}
+
+	go b.loop(queryInterval)
+	return b
 }
 
 func (b *backends) Servers() []*balancerpb.Server {
@@ -80,6 +87,12 @@ func (b *backends) Update(addrs strset) (err error) {
 	return
 }
 
+func (b *backends) Close() error {
+	close(b.closing)
+	<-b.closed
+	return b.Update(nil)
+}
+
 func (b *backends) connectAll(addrs []string) (err error) {
 	var mu sync.Mutex
 	var wg sync.WaitGroup
@@ -100,7 +113,7 @@ func (b *backends) connectAll(addrs []string) (err error) {
 }
 
 func (b *backends) connect(addr string) error {
-	backend, err := newBackend(b.target, addr, b.queryInterval)
+	backend, err := newBackend(b.target, addr)
 	if err != nil {
 		return err
 	}
@@ -109,4 +122,36 @@ func (b *backends) connect(addr string) error {
 	b.set[addr] = backend
 	b.mu.Unlock()
 	return nil
+}
+
+func (b *backends) loop(queryInterval time.Duration) {
+	t := time.NewTicker(queryInterval)
+	defer t.Stop()
+
+	for {
+		select {
+		case <-b.closing:
+			close(b.closed)
+			return
+		case <-t.C:
+			if err := b.updateBackendScores(); err != nil {
+				grpclog.Printf("failed to update backend load scores: %s", err)
+			}
+		}
+	}
+}
+
+func (b *backends) updateBackendScores() error {
+	b.mu.RLock()
+	set := b.set
+	b.mu.RUnlock()
+
+	succeeded := make([]string, 0, len(set))
+	for addr, backend := range set {
+		if err := backend.UpdateScore(); err != nil {
+			continue
+		}
+		succeeded = append(succeeded, addr)
+	}
+	return b.Update(succeeded)
 }
