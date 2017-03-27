@@ -25,17 +25,21 @@ func (s strset) Contains(v string) bool {
 // --------------------------------------------------------------------
 
 type backends struct {
-	target string
-	set    map[string]*backend
-	mu     sync.RWMutex
+	target      string
+	maxFailures int
+
+	set map[string]*backend
+	mu  sync.RWMutex
 
 	closing, closed chan struct{}
 }
 
-func newBackends(target string, queryInterval time.Duration) *backends {
+func newBackends(target string, queryInterval time.Duration, maxFailures int) *backends {
 	b := &backends{
-		target: target,
-		set:    make(map[string]*backend),
+		target:      target,
+		maxFailures: maxFailures,
+
+		set: make(map[string]*backend),
 
 		closing: make(chan struct{}),
 		closed:  make(chan struct{}),
@@ -113,7 +117,7 @@ func (b *backends) connectAll(addrs []string) (err error) {
 }
 
 func (b *backends) connect(addr string) error {
-	backend, err := newBackend(b.target, addr)
+	backend, err := newBackend(b.target, addr, b.maxFailures)
 	if err != nil {
 		return err
 	}

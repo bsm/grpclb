@@ -19,9 +19,12 @@ type backend struct {
 	target  string
 	address string
 	score   int64
+
+	maxFailures int
+	failures    int
 }
 
-func newBackend(target, address string) (*backend, error) {
+func newBackend(target, address string, maxFailures int) (*backend, error) {
 	cc, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
 		return nil, err
@@ -33,6 +36,8 @@ func newBackend(target, address string) (*backend, error) {
 
 		target:  target,
 		address: address,
+
+		maxFailures: maxFailures,
 	}
 
 	if err := b.UpdateScore(); err != nil {
@@ -57,16 +62,42 @@ func (b *backend) Score() int64 {
 func (b *backend) UpdateScore() error {
 	resp, err := b.cln.Load(context.Background(), &backendpb.LoadRequest{})
 	if err != nil {
-		if grpc.Code(err) == codes.Unimplemented {
-			return nil
-		}
-		grpclog.Printf("error retrieving load score for %s from %s: %s", b.target, b.address, err)
-		return err
+		return b.handleError(err)
 	}
+	b.failures = 0 // clear failures on success
 	atomic.StoreInt64(&b.score, resp.Score)
 	return nil
 }
 
 func (b *backend) Close() error {
 	return b.cc.Close()
+}
+
+func (b *backend) handleError(err error) error {
+
+	// ignored errors:
+	if grpc.Code(err) == codes.Unimplemented {
+		return nil
+	}
+
+	b.failures++
+	grpclog.Printf("error retrieving load score for %s from %s (failures: %d): %s", b.target, b.address, b.failures, err)
+
+	// recoverable errors:
+	switch grpc.Code(err) {
+	case
+		codes.Canceled,
+		codes.DeadlineExceeded,
+		codes.ResourceExhausted,
+		codes.FailedPrecondition,
+		codes.Aborted:
+
+		if b.maxFailures > 0 && b.failures >= b.maxFailures {
+			return err
+		}
+		return nil
+	}
+
+	// fatal errors:
+	return err
 }

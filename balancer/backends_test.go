@@ -14,7 +14,7 @@ var _ = Describe("backends", func() {
 	var subject *backends
 
 	BeforeEach(func() {
-		subject = newBackends("svcname", time.Minute)
+		subject = newBackends("svcname", time.Minute, 0)
 		err := subject.Update(toStrset([]string{backendA.Address(), backendB.Address()}))
 		Expect(err).NotTo(HaveOccurred())
 		Expect(subject.set).To(HaveLen(2))

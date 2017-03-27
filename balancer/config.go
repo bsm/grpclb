@@ -18,6 +18,11 @@ type Config struct {
 		// Interval between service load pings
 		// Default: 5s
 		Interval time.Duration
+		// MaxFailures allows up to this number of failures for backend
+		// before removing it from set of backends for service.
+		// Negative or zero value ignores failures completely.
+		// Default: 0 (ignore failures)
+		MaxFailures int
 	}
 }
 

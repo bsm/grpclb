@@ -13,7 +13,7 @@ var _ = Describe("service", func() {
 
 	BeforeEach(func() {
 		var err error
-		subject, err = newService("svcname", mockDiscovery{backendA.Address(), backendB.Address()}, time.Minute, time.Minute)
+		subject, err = newService("svcname", mockDiscovery{backendA.Address(), backendB.Address()}, time.Minute, time.Minute, 0)
 		Expect(err).NotTo(HaveOccurred())
 	})
 
