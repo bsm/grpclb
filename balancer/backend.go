@@ -74,9 +74,10 @@ func (b *backend) Close() error {
 }
 
 func (b *backend) handleError(err error) error {
+	errCode = grpc.Code(err)
 
 	// ignored errors:
-	if grpc.Code(err) == codes.Unimplemented {
+	if errCode == codes.Unimplemented {
 		return nil
 	}
 
@@ -84,7 +85,7 @@ func (b *backend) handleError(err error) error {
 	grpclog.Printf("error retrieving load score for %s from %s (failures: %d): %s", b.target, b.address, b.failures, err)
 
 	// recoverable errors:
-	switch grpc.Code(err) {
+	switch errCode {
 	case
 		codes.Canceled,
 		codes.DeadlineExceeded,
