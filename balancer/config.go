@@ -21,7 +21,7 @@ type Config struct {
 		// MaxFailures allows up to this number of failures for backend
 		// before removing it from set of backends for service.
 		// Negative or zero value ignores failures completely.
-		// Default: 0 (ignore failures)
+		// Default: 3
 		MaxFailures int
 	}
 }
@@ -35,6 +35,9 @@ func (c *Config) norm() *Config {
 	}
 	if c.LoadReport.Interval == 0 {
 		c.LoadReport.Interval = 5 * time.Second
+	}
+	if c.LoadReport.MaxFailures == 0 {
+		c.LoadReport.MaxFailures = 3
 	}
 	return c
 }

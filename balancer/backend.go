@@ -74,7 +74,7 @@ func (b *backend) Close() error {
 }
 
 func (b *backend) handleError(err error) error {
-	errCode = grpc.Code(err)
+	errCode := grpc.Code(err)
 
 	// ignored errors:
 	if errCode == codes.Unimplemented {
