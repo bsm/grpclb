@@ -15,18 +15,18 @@ type service struct {
 	closing, closed chan struct{}
 }
 
-func newService(target string, discovery Discovery, discoveryInterval, loadReportInterval time.Duration) (*service, error) {
+func newService(target string, discovery Discovery, discoveryInterval, loadReportInterval time.Duration, maxFailures int) (*service, error) {
 	s := &service{
 		target:    target,
 		discovery: discovery,
-		backends:  newBackends(target, loadReportInterval),
+		backends:  newBackends(target, loadReportInterval, maxFailures),
 
 		closing: make(chan struct{}),
 		closed:  make(chan struct{}),
 	}
 	if err := s.updateBackends(); err != nil {
 		// close ALL backend connections (some of them could succeed, don't leak these):
-		_ = s.backends.Update(nil)
+		_ = s.backends.Close()
 		return nil, err
 	}
 
@@ -48,7 +48,7 @@ func (s *service) loop(discoveryInterval time.Duration) {
 	for {
 		select {
 		case <-s.closing:
-			_ = s.backends.Update(nil)
+			_ = s.backends.Close()
 			close(s.closed)
 			return
 		case <-t.C:

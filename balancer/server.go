@@ -60,7 +60,7 @@ func (b *Server) GetServers(target string) ([]*balancerpb.Server, error) {
 	}
 
 	// Create a new service connection
-	newSvc, err := newService(target, b.discovery, b.config.Discovery.Interval, b.config.LoadReport.Interval)
+	newSvc, err := newService(target, b.discovery, b.config.Discovery.Interval, b.config.LoadReport.Interval, b.config.LoadReport.MaxFailures)
 	if err != nil {
 		return nil, err
 	}

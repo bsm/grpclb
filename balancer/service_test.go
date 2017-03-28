@@ -13,7 +13,7 @@ var _ = Describe("service", func() {
 
 	BeforeEach(func() {
 		var err error
-		subject, err = newService("svcname", mockDiscovery{backendA.Address(), backendB.Address()}, time.Minute, time.Minute)
+		subject, err = newService("svcname", mockDiscovery{backendA.Address(), backendB.Address()}, time.Minute, time.Minute, 0)
 		Expect(err).NotTo(HaveOccurred())
 	})
 
@@ -30,7 +30,7 @@ var _ = Describe("service", func() {
 
 	It("should update backends", func() {
 		subject.discovery = mockDiscovery{backendA.Address()}
-		Expect(subject.updateBackends()).NotTo(HaveOccurred())
+		Expect(subject.updateBackends()).To(Succeed())
 
 		Expect(subject.Servers()).To(ConsistOf([]*balancerpb.Server{
 			{Address: backendA.Address(), Score: 10},

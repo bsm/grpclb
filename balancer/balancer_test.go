@@ -1,17 +1,26 @@
 package balancer
 
 import (
+	"io/ioutil"
+	"log"
 	"math/rand"
 	"net"
 	"testing"
 
 	backendpb "github.com/bsm/grpclb/grpclb_backend_v1"
 	balancerpb "github.com/bsm/grpclb/grpclb_balancer_v1"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
+
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/grpclog"
+
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
+
+func init() {
+	grpclog.SetLogger(log.New(ioutil.Discard, "", log.LstdFlags))
+}
 
 var _ = Describe("Balancer", func() {
 	var servers []*balancerpb.Server
@@ -53,16 +62,9 @@ func TestSuite(t *testing.T) {
 var backendA, backendB, backendX *mockServer
 
 var _ = BeforeSuite(func() {
-	var err error
-
-	backendA, err = newMockServer(10)
-	Expect(err).NotTo(HaveOccurred())
-
-	backendB, err = newMockServer(40)
-	Expect(err).NotTo(HaveOccurred())
-
-	backendX, err = newMockServer(-1)
-	Expect(err).NotTo(HaveOccurred())
+	backendA = newMockServer(10)
+	backendB = newMockServer(40)
+	backendX = newMockServer(-1)
 })
 
 var _ = AfterSuite(func() {
@@ -78,11 +80,12 @@ type mockDiscovery []string
 func (m mockDiscovery) Resolve(_ string) ([]string, error) { return []string(m), nil }
 
 type mockServer struct {
-	score int64
-	lis   net.Listener
+	score   int64
+	loadErr error
+	lis     net.Listener
 }
 
-func newMockServer(score int64) (*mockServer, error) {
+func newMockServer(score int64) *mockServer {
 	srv := grpc.NewServer()
 	svc := &mockServer{score: score}
 	if score >= 0 {
@@ -90,16 +93,15 @@ func newMockServer(score int64) (*mockServer, error) {
 	}
 
 	lis, err := net.Listen("tcp", "127.0.0.1:0")
-	if err != nil {
-		return nil, err
-	}
+	Expect(err).NotTo(HaveOccurred())
+
 	svc.lis = lis
 	go srv.Serve(lis)
-	return svc, nil
+	return svc
 }
 
 func (m *mockServer) Close()          { _ = m.lis.Close() }
 func (m *mockServer) Address() string { return m.lis.Addr().String() }
 func (m *mockServer) Load(_ context.Context, _ *backendpb.LoadRequest) (*backendpb.LoadResponse, error) {
-	return &backendpb.LoadResponse{Score: m.score}, nil
+	return &backendpb.LoadResponse{Score: m.score}, m.loadErr
 }
