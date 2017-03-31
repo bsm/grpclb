@@ -15,7 +15,7 @@ var _ = Describe("backends", func() {
 
 	BeforeEach(func() {
 		subject = newBackends("svcname", time.Minute, 0)
-		err := subject.Update(toStrset([]string{backendA.Address(), backendB.Address()}))
+		err := subject.Update([]string{backendA.Address(), backendB.Address()})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(subject.set).To(HaveLen(2))
 		Expect(subject.set).To(HaveKey(backendA.Address()))
@@ -35,19 +35,19 @@ var _ = Describe("backends", func() {
 	})
 
 	It("should update servers", func() {
-		err := subject.Update(toStrset([]string{backendA.Address(), backendB.Address()}))
+		err := subject.Update([]string{backendA.Address(), backendB.Address()})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(subject.set).To(HaveLen(2))
 		Expect(subject.set).To(HaveKey(backendA.Address()))
 		Expect(subject.set).To(HaveKey(backendB.Address()))
 
-		err = subject.Update(toStrset([]string{backendX.Address(), backendB.Address()}))
+		err = subject.Update([]string{backendX.Address(), backendB.Address()})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(subject.set).To(HaveLen(2))
 		Expect(subject.set).To(HaveKey(backendX.Address()))
 		Expect(subject.set).To(HaveKey(backendB.Address()))
 
-		err = subject.Update(toStrset([]string{backendB.Address()}))
+		err = subject.Update([]string{backendB.Address()})
 		Expect(err).NotTo(HaveOccurred())
 		Expect(subject.set).To(HaveLen(1))
 		Expect(subject.set).To(HaveKey(backendB.Address()))
@@ -59,7 +59,7 @@ var _ = Describe("backends", func() {
 				server := newMockServer(0)
 				defer server.Close()
 
-				err := subject.Update(toStrset([]string{server.Address()}))
+				err := subject.Update([]string{server.Address()})
 				Expect(err).NotTo(HaveOccurred())
 				Expect(subject.set).To(HaveKey(server.Address()))
 
