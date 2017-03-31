@@ -157,5 +157,5 @@ func (b *backends) updateBackendScores() error {
 		}
 		succeeded = append(succeeded, addr)
 	}
-	return b.Update(succeeded)
+	return b.Update(toStrset(succeeded))
 }
