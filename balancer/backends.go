@@ -54,7 +54,7 @@ func (b *backends) Update(addrs []string) (err error) {
 
 	b.mu.Lock()
 	for addr, backend := range b.set {
-		if !strset(addrs).Contains(addr) {
+		if pos := sort.SearchStrings(addrs, addr); !(pos < len(addrs) && addrs[pos] == addr) {
 			removed = append(removed, backend)
 			delete(b.set, addr)
 		}
@@ -146,13 +146,4 @@ func (b *backends) updateBackendScores() error {
 		succeeded = append(succeeded, addr)
 	}
 	return b.Update(succeeded)
-}
-
-// --------------------------------------------------------------------
-
-type strset []string
-
-func (s strset) Contains(v string) bool {
-	pos := sort.SearchStrings(s, v)
-	return pos < len(s) && s[pos] == v
 }
