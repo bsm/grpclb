@@ -10,20 +10,6 @@ import (
 	balancerpb "github.com/bsm/grpclb/grpclb_balancer_v1"
 )
 
-type strset []string
-
-func toStrset(vv []string) strset {
-	sort.Strings(vv)
-	return strset(vv)
-}
-
-func (s strset) Contains(v string) bool {
-	pos := sort.SearchStrings(s, v)
-	return pos < len(s) && s[pos] == v
-}
-
-// --------------------------------------------------------------------
-
 type backends struct {
 	target      string
 	maxFailures int
@@ -60,13 +46,15 @@ func (b *backends) Servers() []*balancerpb.Server {
 	return servers
 }
 
-func (b *backends) Update(addrs strset) (err error) {
+func (b *backends) Update(addrs []string) (err error) {
 	var removed []*backend
 	var added []string
 
+	sort.Strings(addrs)
+
 	b.mu.Lock()
 	for addr, backend := range b.set {
-		if !addrs.Contains(addr) {
+		if pos := sort.SearchStrings(addrs, addr); !(pos < len(addrs) && addrs[pos] == addr) {
 			removed = append(removed, backend)
 			delete(b.set, addr)
 		}
@@ -157,5 +145,5 @@ func (b *backends) updateBackendScores() error {
 		}
 		succeeded = append(succeeded, addr)
 	}
-	return b.Update(toStrset(succeeded))
+	return b.Update(succeeded)
 }

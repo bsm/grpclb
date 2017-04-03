@@ -66,5 +66,5 @@ func (s *service) updateBackends() error {
 		return err
 	}
 
-	return s.backends.Update(toStrset(addrs))
+	return s.backends.Update(addrs)
 }
