@@ -9,6 +9,7 @@ setup(
     url='https://github.com/bsm/grpclb',
     license='MIT',
 
+    install_requires=['grpcio'],
     packages=find_packages(),
     zip_safe=False,
 
