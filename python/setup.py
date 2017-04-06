@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='grpclb',
-    version='0.1.0',
+    version='0.2.0',
     description='grpclb contains automatically generated code for calling a grpclb server',
 
     author='Black Square Media',
