@@ -4,6 +4,7 @@ VERSION=v0.3.1
 
 GOPROTO=$(patsubst %.proto,%.pb.go,$(wildcard */*.proto))
 PYPROTO=$(patsubst %.proto,%_pb2.py,$(wildcard */*.proto))
+RBPROTO=$(patsubst %.proto,%_pb.rb,$(wildcard */*.proto))
 
 TARGET_PKG=$(patsubst cmd/%/main.go,bin/%,$(wildcard cmd/grpc-lb-*/main.go))
 TARGET_OS=linux darwin
@@ -20,7 +21,7 @@ vet:
 	go vet $(PKG)
 
 
-proto: proto.go proto.python
+proto: proto.go proto.python proto.ruby
 
 touch-proto:
 	touch $(wildcard */*.proto)
@@ -41,6 +42,10 @@ proto.python: $(PYPROTO)
 	@if ! python -c 'import grpc_tools'; then echo 'Run "pip install grpcio-tools" required to generate python code'; exit 1; fi
 
 	python -m grpc_tools.protoc -I. --python_out=python --grpc_python_out=python $<
+
+proto.ruby: $(RBPROTO)
+%_pb.rb: %.proto
+	protoc --ruby_out=ruby/lib --grpc_out=ruby/lib --plugin=protoc-gen-grpc=`which grpc_ruby_plugin` $<
 
 bin/grpc-lb-%.zip: bin/grpc-lb-%
 	zip -j $@ $<
