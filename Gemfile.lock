@@ -1,0 +1,52 @@
+PATH
+  remote: .
+  specs:
+    grpclb (0.1.0)
+      google-protobuf
+      grpc
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.5.1)
+      public_suffix (~> 2.0, >= 2.0.2)
+    faraday (0.12.0.1)
+      multipart-post (>= 1.2, < 3)
+    google-protobuf (3.2.0.2)
+    googleauth (0.5.1)
+      faraday (~> 0.9)
+      jwt (~> 1.4)
+      logging (~> 2.0)
+      memoist (~> 0.12)
+      multi_json (~> 1.11)
+      os (~> 0.9)
+      signet (~> 0.7)
+    grpc (1.2.2)
+      google-protobuf (~> 3.1)
+      googleauth (~> 0.5.1)
+    grpc-tools (1.2.2)
+    jwt (1.5.6)
+    little-plugger (1.1.4)
+    logging (2.2.0)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.10)
+    memoist (0.15.0)
+    multi_json (1.12.1)
+    multipart-post (2.0.0)
+    os (0.9.6)
+    public_suffix (2.0.5)
+    signet (0.7.3)
+      addressable (~> 2.3)
+      faraday (~> 0.9)
+      jwt (~> 1.5)
+      multi_json (~> 1.10)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  grpc-tools
+  grpclb!
+
+BUNDLED WITH
+   1.11.2
