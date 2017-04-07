@@ -6,33 +6,43 @@ import grpc
 from . import balancer_pb2, balancer_pb2_grpc
 
 
-def grpclb_channel(service, grpclb_addr='localhost:8383', credentials=None, options=None):
-    """Creates a Channel to a service target.
+class ServiceUnavailableError(Exception):
+    """Raised when grpclb has no services registered for a target."""
 
-    Args:
-        service: Service name/target.
-        grpclb_addr: grpclb server address (host:port).
-        credentials: A ChannelCredentials instance to dial the service with.
-            The service is connected to insecurely if unset.
-        options: A sequence of string-value pairs according to which to configure
-            the created channel.
 
-    Returns:
-        A Channel to the service through which RPCs may be conducted.
-    """
-    chan = grpc.insecure_channel(grpclb_addr)
-    stub = balancer_pb2_grpc.LoadBalancerStub(chan)
-    req = balancer_pb2.ServersRequest(target=service)
+class Client:
+    """Simple wrapper handling service discovery from grpclb."""
 
-    while True:
-        resp = stub.Servers(req)
-        if len(resp.servers):
-            break
-        time.sleep(random.random() * 1.5)
+    def __init__(self, lb_addr, target, service_stub, lb_creds=None, service_creds=None):
+        if lb_creds is None:
+            chan = grpc.insecure_channel(lb_addr)
+        else:
+            chan = grpc.secure_channel(lb_addr, credentials)
+        self.lb_stub = balancer_pb2_grpc.LoadBalancerStub(chan)
 
-    if credentials is None:
-        service_chan = grpc.insecure_channel(resp.servers[0].address, options)
-    else:
-        service_chan = grpc.secure_channel(resp.servers[0].address, credentials, options)
+        self.target = target
+        self.service_stub = service_stub
+        self.service_creds = service_creds
 
-    return service_chan
+        self.delegated = None
+
+    def __getattr__(self, name):
+        return getattr(self.delegated, name)
+
+    def reconnect(self):
+        """Calls grpclb for a target service address before connecting to it.
+
+        Raises:
+            ServiceUnavailableError: When no servers have been registered for the target.
+        """
+        req = balancer_pb2.ServersRequest(target=self.target)
+        resp = self.lb_stub.Servers(req)
+        if not resp.servers:
+            raise ServiceUnavailableError('No servers available for target {}'.format(self.target))
+
+        if self.service_creds is None:
+            chan = grpc.insecure_channel(resp.servers[0].address)
+        else:
+            chan = grpc.secure_channel(resp.servers[0].address, credentials)
+
+        self.delegated = self.service_stub(chan)
