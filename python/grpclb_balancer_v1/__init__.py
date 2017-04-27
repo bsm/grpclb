@@ -1,6 +1,3 @@
-import random
-import time
-
 import grpc
 
 from . import balancer_pb2, balancer_pb2_grpc
@@ -17,7 +14,7 @@ class Client:
         if lb_creds is None:
             chan = grpc.insecure_channel(lb_addr)
         else:
-            chan = grpc.secure_channel(lb_addr, credentials)
+            chan = grpc.secure_channel(lb_addr, lb_creds)
         self.lb_stub = balancer_pb2_grpc.LoadBalancerStub(chan)
 
         self.target = target
@@ -43,6 +40,6 @@ class Client:
         if self.service_creds is None:
             chan = grpc.insecure_channel(resp.servers[0].address)
         else:
-            chan = grpc.secure_channel(resp.servers[0].address, credentials)
+            chan = grpc.secure_channel(resp.servers[0].address, self.service_creds)
 
         self.delegated = self.service_stub(chan)
