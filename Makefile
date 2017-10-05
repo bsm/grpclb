@@ -1,5 +1,5 @@
 SRC=$(shell find . -name '*.go' -not -path '*vendor*')
-PKG=$(shell glide nv)
+PKG=$(shell go list ./... | grep -v 'vendor')
 VERSION=v0.3.1
 
 GOPROTO=$(patsubst %.proto,%.pb.go,$(wildcard */*.proto))
