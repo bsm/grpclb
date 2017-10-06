@@ -1,40 +1,43 @@
 PATH
   remote: .
   specs:
-    grpclb (0.1.0)
-      google-protobuf
+    grpclb (0.4.3)
       grpc
 
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.5.1)
-      public_suffix (~> 2.0, >= 2.0.2)
-    faraday (0.12.0.1)
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
+    faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
-    google-protobuf (3.2.0.2)
-    googleauth (0.5.1)
-      faraday (~> 0.9)
+    google-protobuf (3.4.1.1)
+    googleapis-common-protos-types (1.0.0)
+      google-protobuf (~> 3.0)
+    googleauth (0.5.3)
+      faraday (~> 0.12)
       jwt (~> 1.4)
       logging (~> 2.0)
       memoist (~> 0.12)
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    grpc (1.2.2)
+    grpc (1.6.6)
       google-protobuf (~> 3.1)
+      googleapis-common-protos-types (~> 1.0.0)
       googleauth (~> 0.5.1)
-    grpc-tools (1.2.2)
+    grpc-tools (1.6.6)
     jwt (1.5.6)
     little-plugger (1.1.4)
-    logging (2.2.0)
+    logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    memoist (0.15.0)
-    multi_json (1.12.1)
+    memoist (0.16.0)
+    multi_json (1.12.2)
     multipart-post (2.0.0)
     os (0.9.6)
-    public_suffix (2.0.5)
+    public_suffix (3.0.0)
+    rake (12.1.0)
     signet (0.7.3)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -47,6 +50,7 @@ PLATFORMS
 DEPENDENCIES
   grpc-tools
   grpclb!
+  rake
 
 BUNDLED WITH
-   1.11.2
+   1.16.0.pre.2
