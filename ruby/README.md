@@ -25,7 +25,7 @@ Automatically reconnects on UNAVAILABLE errors.
 ## Server
 
 ```
-require 'grpclb/client' # or just 'grpclb'
+require 'grpclb/server' # or just 'grpclb'
 
 # construct server:
 server = Grpclb::Server.new(...) # just a subclass of GRPC::RpcServer, same initialize args
