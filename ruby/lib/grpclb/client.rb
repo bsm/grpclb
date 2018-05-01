@@ -39,15 +39,15 @@ class Grpclb::Client
   private
 
   def with_reconnect
-    attempt = 1
+    retries = 0
     begin
       yield
     rescue GRPC::BadStatus => e
       raise unless e.code == GRPC::Core::StatusCodes::UNAVAILABLE
-      raise if attempt >= @max_reconnects
+      raise if retries >= @max_reconnects
 
       reconnect!
-      attempt += 1
+      retries += 1
       retry
     end
   end
