@@ -9,9 +9,7 @@ class Grpclb::Client
   # @param [String] lb_addr the load balancer address
   # @param [String] target the target service name, as registered in the backend
   # @param [Class] service_stub the service stub class
-  def initialize(lb_addr, target, service_stub,
-                 lb_creds: :this_channel_is_insecure, service_creds: :this_channel_is_insecure,
-                 max_reconnects: DEFAULT_MAX_RECONNECTS)
+  def initialize(lb_addr, target, service_stub, lb_creds: :this_channel_is_insecure, service_creds: :this_channel_is_insecure, max_reconnects: DEFAULT_MAX_RECONNECTS) # rubocop:disable Metrics/ParameterLists, Metrics/LineLength
     @lb_stub = Grpclb::Balancer::V1::LoadBalancer::Stub.new(lb_addr, lb_creds)
     @target = target
     @service_stub  = service_stub
@@ -35,7 +33,7 @@ class Grpclb::Client
     raise "No servers available for target '#{target}'" if servers.empty?
 
     primary = servers.first.address
-    @client  = @service_stub.new(primary, @service_creds)
+    @client = @service_stub.new(primary, @service_creds)
   end
 
   private

@@ -1,0 +1,2 @@
+inherit_from:
+  - https://storage.googleapis.com/bsm-misc/rubocop.yml

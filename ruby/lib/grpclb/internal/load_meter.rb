@@ -23,7 +23,7 @@ module Grpclb
           passed = now - @scored_at
           @scored_at = now
 
-          break 0 if passed == 0
+          break 0 if passed.zero?
 
           if passed < @period
             @scored_at -= passed

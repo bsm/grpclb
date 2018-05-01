@@ -10,7 +10,7 @@ module Grpclb
         @meter = meter
       end
 
-      def load(_, _)
+      def load(_req, _call)
         Backend::V1::LoadResponse.new(score: @meter.score)
       end
     end

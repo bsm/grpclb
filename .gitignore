@@ -4,3 +4,4 @@ dist/
 vendor/
 .glide/
 *egg-info/
+.rubocop-*
