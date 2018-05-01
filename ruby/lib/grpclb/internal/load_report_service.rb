@@ -6,12 +6,12 @@ module Grpclb
     class LoadReportService < Grpclb::Backend::V1::LoadReport::Service
       include GRPC::GenericService
 
-      def initialize(meter)
-        @meter = meter
+      def initialize(pool)
+        @pool = pool
       end
 
       def load(_req, _call)
-        Backend::V1::LoadResponse.new(score: @meter.score)
+        Backend::V1::LoadResponse.new(score: @pool.jobs_waiting)
       end
     end
   end
