@@ -24,7 +24,7 @@ Automatically reconnects on UNAVAILABLE errors.
 
 ## Server
 
-```
+```ruby
 require 'grpclb/server' # or just 'grpclb'
 
 # construct server:
