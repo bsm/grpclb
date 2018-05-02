@@ -53,23 +53,20 @@ var _ = Describe("backends", func() {
 		Expect(subject.set).To(HaveKey(backendB.Address()))
 	})
 
-	Describe("private API", func() {
-		Describe("updateBackendScores", func() {
-			It("should forget backends, that fail to update load score", func() {
-				server := newMockServer(0)
-				defer server.Close()
+	Describe("updateBackendScores", func() {
+		It("should forget backends, that fail to update load score", func() {
+			server := newMockServer(0)
+			defer server.Close()
 
-				err := subject.Update([]string{server.Address()})
-				Expect(err).NotTo(HaveOccurred())
-				Expect(subject.set).To(HaveKey(server.Address()))
+			Expect(subject.Update([]string{server.Address()})).To(Succeed())
+			Expect(subject.set).To(SatisfyAll(
+				HaveLen(1),
+				HaveKey(server.Address()),
+			))
 
-				server.loadErr = grpc.ErrClientConnClosing
-
-				err = subject.updateBackendScores()
-				Expect(err).NotTo(HaveOccurred())
-
-				Expect(subject.set).NotTo(HaveKey(server.Address()))
-			})
+			server.loadErr = grpc.ErrClientConnClosing
+			Expect(subject.updateBackendScores()).To(Succeed())
+			Expect(subject.set).To(HaveLen(0))
 		})
 	})
 

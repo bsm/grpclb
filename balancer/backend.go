@@ -1,6 +1,7 @@
 package balancer
 
 import (
+	"strings"
 	"sync/atomic"
 
 	backendpb "github.com/bsm/grpclb/grpclb_backend_v1"
@@ -74,10 +75,13 @@ func (b *backend) Close() error {
 }
 
 func (b *backend) handleError(err error) error {
-	errCode := grpc.Code(err)
+	switch err {
+	case grpc.ErrClientConnClosing:
+		return err
+	}
 
-	// ignored errors:
-	if errCode == codes.Unimplemented {
+	code := grpc.Code(err)
+	if code == codes.Unimplemented {
 		return nil
 	}
 
@@ -85,10 +89,13 @@ func (b *backend) handleError(err error) error {
 	grpclog.Printf("error retrieving load score for %s from %s (failures: %d): %s", b.target, b.address, b.failures, err)
 
 	// recoverable errors:
-	switch errCode {
-	case
-		codes.Canceled,
-		codes.DeadlineExceeded,
+	switch code {
+	case codes.Canceled:
+		if strings.Contains(err.Error(), "closing") {
+			return err
+		}
+		fallthrough
+	case codes.DeadlineExceeded,
 		codes.ResourceExhausted,
 		codes.FailedPrecondition,
 		codes.Aborted:
