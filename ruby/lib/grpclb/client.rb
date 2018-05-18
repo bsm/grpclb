@@ -23,8 +23,6 @@ class Grpclb::Client
         with_reconnect { client.send(meth, *a, &b) }
       end
     end
-
-    reconnect!
   end
 
   def reconnect!
@@ -39,6 +37,8 @@ class Grpclb::Client
   private
 
   def with_reconnect
+    reconnect! unless @client
+
     retries = 0
     begin
       yield
