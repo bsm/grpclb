@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    grpclb (0.4.4)
+    grpclb (0.4.5)
       grpc
 
 GEM
@@ -12,7 +12,7 @@ GEM
     ast (2.4.0)
     faraday (0.15.0)
       multipart-post (>= 1.2, < 3)
-    google-protobuf (3.5.1.2)
+    google-protobuf (3.5.1.2-x86_64-linux)
     googleapis-common-protos-types (1.0.1)
       google-protobuf (~> 3.0)
     googleauth (0.6.2)
@@ -23,7 +23,7 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    grpc (1.11.0)
+    grpc (1.11.0-x86_64-linux)
       google-protobuf (~> 3.1)
       googleapis-common-protos-types (~> 1.0.0)
       googleauth (>= 0.5.1, < 0.7)

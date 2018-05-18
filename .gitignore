@@ -5,3 +5,4 @@ vendor/
 .glide/
 *egg-info/
 .rubocop-*
+pkg/
