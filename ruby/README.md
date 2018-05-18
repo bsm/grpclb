@@ -1,5 +1,7 @@
 # grpclb/ruby
 
+[![Gem Version](https://badge.fury.io/rb/grpclb.svg)](https://badge.fury.io/rb/grpclb)
+
 Ruby implementation of grpclb client and server.
 
 
