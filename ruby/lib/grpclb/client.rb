@@ -36,9 +36,11 @@ class Grpclb::Client
 
   private
 
-  def with_reconnect
-    reconnect! unless @client
+  def client
+    @client || reconnect!
+  end
 
+  def with_reconnect
     retries = 0
     begin
       yield
