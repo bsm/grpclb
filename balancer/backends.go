@@ -74,7 +74,7 @@ func (b *backends) Update(addrs []string) (err error) {
 
 	// Connect to added backends, in parallel
 	if len(added) != 0 {
-		err = b.connectAll(addrs)
+		err = b.connectAll(added)
 	}
 	return
 }
