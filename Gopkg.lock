@@ -2,7 +2,7 @@
 
 
 [[projects]]
-  digest = "1:3dd078fda7500c341bc26cfbc6c6a34614f295a2457149fc1045cab767cbcf18"
+  digest = "1:815d45503dceeca8ffecce0081d7edeae5e75b126107ef763d1c617154d72359"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -16,7 +16,7 @@
   version = "v1.2.0"
 
 [[projects]]
-  digest = "1:5190b0c9b2d3c491838653056455f1e9406e039ee91ec768849f3e5ab441f06a"
+  digest = "1:8b51489bcf4220cfd569b1f5be9c3c32d610028806ffff6e8f423cf21c2e8932"
   name = "github.com/hashicorp/consul"
   packages = ["api"]
   pruneopts = ""
@@ -33,14 +33,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:ff65bf6fc4d1116f94ac305342725c21b55c16819c2606adc8f527755716937f"
+  digest = "1:cd5813053beac0114f96a7da3924fc8a15e0cd2b139f079e0fcce5d3244ae304"
   name = "github.com/hashicorp/go-rootcerts"
   packages = ["."]
   pruneopts = ""
   revision = "6bb64b370b90e7ef1fa532be9e591a81c3493e00"
 
 [[projects]]
-  digest = "1:f72168ea995f398bab88e84bd1ff58a983466ba162fb8d50d47420666cd57fad"
+  digest = "1:d2b2cff454cb23a9769ef3c9075741f5985773a998584b3b3ce203fe4b1abbea"
   name = "github.com/hashicorp/serf"
   packages = ["coordinate"]
   pruneopts = ""
@@ -48,7 +48,7 @@
   version = "v0.8.1"
 
 [[projects]]
-  digest = "1:b3c5b95e56c06f5aa72cb2500e6ee5f44fcd122872d4fec2023a488e561218bc"
+  digest = "1:dfe6012fbd6aeb1f6e656f2463eae75fa535c7e6a73086da16844cecdf9e17cc"
   name = "github.com/hpcloud/tail"
   packages = [
     ".",
@@ -78,7 +78,7 @@
   revision = "f15292f7a699fcc1a38a80977f80a046874ba8ac"
 
 [[projects]]
-  digest = "1:a7fd918fb5bd2188436785c0424f8a50b4addfedf37a2b14d796be2a927b8007"
+  digest = "1:f34f9c72cd54175c366e7ee9fe113dcc63a1138fd920cf6ff8c5f26f15b1cabc"
   name = "github.com/onsi/ginkgo"
   packages = [
     ".",
@@ -106,7 +106,7 @@
   version = "v1.6.0"
 
 [[projects]]
-  digest = "1:a2453f1424ddc8c28a93b2bb59f9503f61f4a1a3a4719b007c8d48a2cada631b"
+  digest = "1:4fdaf58dd71c7ae53c695becac1653269f6899602a9e02f53d33b7bca4cf31c8"
   name = "github.com/onsi/gomega"
   packages = [
     ".",
@@ -128,7 +128,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:7a1f3a425a5c3cbef7ff19f11aeef1b3c057a71b4df7f396af5c62cd220ba120"
+  digest = "1:01a9302144176525c85f1412790c9408a56cfdd7bd9ca58c2b626d6620e17b05"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -147,14 +147,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:54d1b4c40f05586ddc168fc0f94ceebe85bdb285613ae4a5dafd5e43b52b4d0f"
+  digest = "1:27ad151d1efab7f4b246860d308764b714fb0005c6272c577f30564167f06554"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = ""
-  revision = "3b58ed4ad3395d483fc92d5d14123ce2c3581fec"
+  revision = "11551d06cbcc94edc80a0facaccbda56473c19c1"
 
 [[projects]]
-  digest = "1:5acd3512b047305d49e8763eef7ba423901e85d5dd2fd1e71778a0ea8de10bd4"
+  digest = "1:af9bfca4298ef7502c52b1459df274eed401a4f5498b900e9a92d28d3d87ac5a"
   name = "golang.org/x/text"
   packages = [
     "collate",
@@ -190,14 +190,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:960f1fa3f12667fe595c15c12523718ed8b1b5428c83d70da54bb014da9a4c1a"
+  digest = "1:c8aa249fb74a455a901ef97b28dd8225a3f65a5af0b2127d7ac3f54924866086"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = ""
   revision = "c66870c02cf823ceb633bcd05be3c7cda29976f4"
 
 [[projects]]
-  digest = "1:ca75b3775a5d4e5d1fb48f57ef0865b4aaa8b3f00e6b52be68db991c4594e0a7"
+  digest = "1:cb1330030248de97a11d9f9664f3944fce0df947e5ed94dbbd9cb6e77068bd46"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -233,7 +233,7 @@
   version = "v1.14.0"
 
 [[projects]]
-  digest = "1:eb53021a8aa3f599d29c7102e65026242bdedce998a54837dc67f14b6a97c5fd"
+  digest = "1:b2106f1668ea5efc1ecc480f7e922a093adb9563fd9ce58585292871f0d0f229"
   name = "gopkg.in/fsnotify.v1"
   packages = ["."]
   pruneopts = ""
