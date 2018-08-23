@@ -10,7 +10,7 @@ import (
 	pb "github.com/bsm/grpclb/grpclb_balancer_v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
-	"google.golang.org/grpc/transport"
+	"google.golang.org/grpc/status"
 )
 
 // PickFirst returns a Balancer that always selects the first address returned
@@ -73,7 +73,7 @@ func (p *pickFirst) Get(ctx context.Context, opts grpc.BalancerGetOptions) (addr
 	for {
 		select {
 		case <-ctx.Done():
-			err = transport.ContextErr(ctx.Err())
+			err = status.FromContextError(ctx.Err()).Err()
 			return
 		case <-p.closing:
 			err = grpc.ErrClientConnClosing
