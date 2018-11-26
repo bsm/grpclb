@@ -3,5 +3,5 @@ go:
   - 1.11.x
 script:
   - make default
-environment:
+env:
   - GO111MODULE=on
