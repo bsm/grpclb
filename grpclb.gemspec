@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name          = 'grpclb'
   s.summary       = 'grpclb ruby protocol'
-  s.version       = '0.4.6'
+  s.version       = File.read(File.expand_path('.version', __dir__)).strip
   s.authors       = ['Black Square Media']
   s.platform      = Gem::Platform::RUBY
   s.files         = `git ls-files ruby`.split("\n")

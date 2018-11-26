@@ -1,4 +1,4 @@
-VERSION=v0.3.2
+VERSION=v$(strip $(shell cat .version))
 
 default: vet test
 
