@@ -31,7 +31,7 @@ proto.python: $(patsubst %.proto,%_pb2.py,$(wildcard */*.proto))
 
 proto.ruby: $(patsubst %.proto,%_pb.rb,$(wildcard */*.proto))
 %_pb.rb: %.proto
-	protoc --ruby_out=ruby/lib --grpc_out=ruby/lib --plugin=protoc-gen-grpc=`which grpc_ruby_plugin` $<
+	bundle exec grpc_tools_ruby_protoc --ruby_out=ruby/lib --grpc_out=ruby/lib $<
 
 .PHONY: proto touch-proto force-proto
 

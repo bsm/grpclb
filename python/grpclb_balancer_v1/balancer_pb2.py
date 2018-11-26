@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='grpclb_balancer_v1/balancer.proto',
   package='grpclb.balancer.v1',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n!grpclb_balancer_v1/balancer.proto\x12\x12grpclb.balancer.v1\"(\n\x06Server\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\r\n\x05score\x18\x02 \x01(\x03\" \n\x0eServersRequest\x12\x0e\n\x06target\x18\x01 \x01(\t\">\n\x0fServersResponse\x12+\n\x07servers\x18\x01 \x03(\x0b\x32\x1a.grpclb.balancer.v1.Server2b\n\x0cLoadBalancer\x12R\n\x07Servers\x12\".grpclb.balancer.v1.ServersRequest\x1a#.grpclb.balancer.v1.ServersResponseb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _SERVER = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='score', full_name='grpclb.balancer.v1.Server.score', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -77,14 +76,14 @@ _SERVERSREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -108,14 +107,14 @@ _SERVERSRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -129,6 +128,7 @@ _SERVERSRESPONSE.fields_by_name['servers'].message_type = _SERVER
 DESCRIPTOR.message_types_by_name['Server'] = _SERVER
 DESCRIPTOR.message_types_by_name['ServersRequest'] = _SERVERSREQUEST
 DESCRIPTOR.message_types_by_name['ServersResponse'] = _SERVERSRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Server = _reflection.GeneratedProtocolMessageType('Server', (_message.Message,), dict(
   DESCRIPTOR = _SERVER,
@@ -152,109 +152,28 @@ ServersResponse = _reflection.GeneratedProtocolMessageType('ServersResponse', (_
 _sym_db.RegisterMessage(ServersResponse)
 
 
-try:
-  # THESE ELEMENTS WILL BE DEPRECATED.
-  # Please use the generated *_pb2_grpc.py files instead.
-  import grpc
-  from grpc.framework.common import cardinality
-  from grpc.framework.interfaces.face import utilities as face_utilities
-  from grpc.beta import implementations as beta_implementations
-  from grpc.beta import interfaces as beta_interfaces
 
+_LOADBALANCER = _descriptor.ServiceDescriptor(
+  name='LoadBalancer',
+  full_name='grpclb.balancer.v1.LoadBalancer',
+  file=DESCRIPTOR,
+  index=0,
+  serialized_options=None,
+  serialized_start=197,
+  serialized_end=295,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='Servers',
+    full_name='grpclb.balancer.v1.LoadBalancer.Servers',
+    index=0,
+    containing_service=None,
+    input_type=_SERVERSREQUEST,
+    output_type=_SERVERSRESPONSE,
+    serialized_options=None,
+  ),
+])
+_sym_db.RegisterServiceDescriptor(_LOADBALANCER)
 
-  class LoadBalancerStub(object):
+DESCRIPTOR.services_by_name['LoadBalancer'] = _LOADBALANCER
 
-    def __init__(self, channel):
-      """Constructor.
-
-      Args:
-        channel: A grpc.Channel.
-      """
-      self.Servers = channel.unary_unary(
-          '/grpclb.balancer.v1.LoadBalancer/Servers',
-          request_serializer=ServersRequest.SerializeToString,
-          response_deserializer=ServersResponse.FromString,
-          )
-
-
-  class LoadBalancerServicer(object):
-
-    def Servers(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-
-  def add_LoadBalancerServicer_to_server(servicer, server):
-    rpc_method_handlers = {
-        'Servers': grpc.unary_unary_rpc_method_handler(
-            servicer.Servers,
-            request_deserializer=ServersRequest.FromString,
-            response_serializer=ServersResponse.SerializeToString,
-        ),
-    }
-    generic_handler = grpc.method_handlers_generic_handler(
-        'grpclb.balancer.v1.LoadBalancer', rpc_method_handlers)
-    server.add_generic_rpc_handlers((generic_handler,))
-
-
-  class BetaLoadBalancerServicer(object):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def Servers(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-
-
-  class BetaLoadBalancerStub(object):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def Servers(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    Servers.future = None
-
-
-  def beta_create_LoadBalancer_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_deserializers = {
-      ('grpclb.balancer.v1.LoadBalancer', 'Servers'): ServersRequest.FromString,
-    }
-    response_serializers = {
-      ('grpclb.balancer.v1.LoadBalancer', 'Servers'): ServersResponse.SerializeToString,
-    }
-    method_implementations = {
-      ('grpclb.balancer.v1.LoadBalancer', 'Servers'): face_utilities.unary_unary_inline(servicer.Servers),
-    }
-    server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
-    return beta_implementations.server(method_implementations, options=server_options)
-
-
-  def beta_create_LoadBalancer_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_serializers = {
-      ('grpclb.balancer.v1.LoadBalancer', 'Servers'): ServersRequest.SerializeToString,
-    }
-    response_deserializers = {
-      ('grpclb.balancer.v1.LoadBalancer', 'Servers'): ServersResponse.FromString,
-    }
-    cardinalities = {
-      'Servers': cardinality.Cardinality.UNARY_UNARY,
-    }
-    stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'grpclb.balancer.v1.LoadBalancer', cardinalities, options=stub_options)
-except ImportError:
-  pass
 # @@protoc_insertion_point(module_scope)
