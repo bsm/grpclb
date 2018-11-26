@@ -1,9 +1,5 @@
 language: go
 go:
-  - 1.10.x
-  - 1.9.x
-install:
-  - go get -u github.com/golang/dep/cmd/dep
-  - dep ensure -v
+  - 1.11.x
 script:
   - make default
