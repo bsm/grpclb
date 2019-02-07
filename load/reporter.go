@@ -1,4 +1,4 @@
-// Package load include helpers for building grpblb compatible servers.
+// Package load include helpers for building grpclb compatible servers.
 package load
 
 import (
