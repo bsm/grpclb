@@ -11,4 +11,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'grpc-tools'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'rubocop-performance'
 end

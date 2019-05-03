@@ -1,6 +1,8 @@
+require: rubocop-performance
 inherit_from:
-  - https://storage.googleapis.com/bsm-misc/rubocop.yml
+  - https://gitlab.com/bsm/misc/raw/master/rubocop/default.yml
 
 AllCops:
   Exclude:
     - 'vendor/**/*'
+    - '**/*_pb.rb'

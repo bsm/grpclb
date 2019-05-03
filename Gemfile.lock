@@ -8,30 +8,30 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.0)
-    google-protobuf (3.6.1)
-    googleapis-common-protos-types (1.0.2)
+    google-protobuf (3.7.1)
+    googleapis-common-protos-types (1.0.4)
       google-protobuf (~> 3.0)
-    grpc (1.16.0)
-      google-protobuf (~> 3.1)
+    grpc (1.20.0)
+      google-protobuf (~> 3.7)
       googleapis-common-protos-types (~> 1.0.0)
-    grpc-tools (1.16.0)
-    jaro_winkler (1.5.1)
-    parallel (1.12.1)
-    parser (2.5.3.0)
+    grpc-tools (1.20.0)
+    jaro_winkler (1.5.2)
+    parallel (1.17.0)
+    parser (2.6.3.0)
       ast (~> 2.4.0)
-    powerpack (0.1.2)
     rainbow (3.0.0)
-    rake (12.3.1)
-    rubocop (0.60.0)
+    rake (12.3.2)
+    rubocop (0.68.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.5, != 2.5.1.1)
-      powerpack (~> 0.1)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (~> 1.4.0)
+      unicode-display_width (>= 1.4.0, < 1.6)
+    rubocop-performance (1.1.0)
+      rubocop (>= 0.67.0)
     ruby-progressbar (1.10.0)
-    unicode-display_width (1.4.0)
+    unicode-display_width (1.5.0)
 
 PLATFORMS
   ruby
@@ -41,6 +41,7 @@ DEPENDENCIES
   grpclb!
   rake
   rubocop
+  rubocop-performance
 
 BUNDLED WITH
-   1.16.4
+   2.0.1

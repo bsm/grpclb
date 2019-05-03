@@ -4,15 +4,17 @@
 require 'google/protobuf'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
-  add_message "grpclb.balancer.v1.Server" do
-    optional :address, :string, 1
-    optional :score, :int64, 2
-  end
-  add_message "grpclb.balancer.v1.ServersRequest" do
-    optional :target, :string, 1
-  end
-  add_message "grpclb.balancer.v1.ServersResponse" do
-    repeated :servers, :message, 1, "grpclb.balancer.v1.Server"
+  add_file("grpclb_balancer_v1/balancer.proto", :syntax => :proto3) do
+    add_message "grpclb.balancer.v1.Server" do
+      optional :address, :string, 1
+      optional :score, :int64, 2
+    end
+    add_message "grpclb.balancer.v1.ServersRequest" do
+      optional :target, :string, 1
+    end
+    add_message "grpclb.balancer.v1.ServersResponse" do
+      repeated :servers, :message, 1, "grpclb.balancer.v1.Server"
+    end
   end
 end
 

@@ -4,10 +4,12 @@
 require 'google/protobuf'
 
 Google::Protobuf::DescriptorPool.generated_pool.build do
-  add_message "grpclb.backend.v1.LoadRequest" do
-  end
-  add_message "grpclb.backend.v1.LoadResponse" do
-    optional :score, :int64, 1
+  add_file("grpclb_backend_v1/backend.proto", :syntax => :proto3) do
+    add_message "grpclb.backend.v1.LoadRequest" do
+    end
+    add_message "grpclb.backend.v1.LoadResponse" do
+      optional :score, :int64, 1
+    end
   end
 end
 
