@@ -6,3 +6,6 @@ script:
   - make default
 env:
   - GO111MODULE=on
+cache:
+  directories:
+    - $GOPATH/pkg/mod
